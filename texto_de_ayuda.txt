@@ -1,0 +1,362 @@
+NVM Instalación
+https://www.youtube.com/watch?app=desktop&v=iG4u1MK7N3I
+
+https://demos.pixinvent.com/materialize-vuejs-admin-template/documentation/guide/installation.html
+https://demos.pixinvent.com/materialize-vuejs-admin-template/demo-1/dashboards/crm
+
+https://spatie.be/docs/laravel-permission/v5/installation-laravel
+https://docs.laravel-excel.com/3.1/getting-started/installation.html
+------------------
+function parseJwt(token) {
+  try {
+   // Aquí separamos la segunda parte (el payload) que contiene los datos como la fecha de expiración
+    const base64Url = token.split('.')[1]; // Obtenemos el payload que está en formato base64Url
+    
+    // El formato base64Url usa '-' y '_' en lugar de '+' y '/' respectivamente
+    // Necesitamos reemplazarlos para que sea decodificable en base64
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    
+    // Decodificamos la cadena base64
+    // atob() convierte la cadena base64 a texto legible
+    // Luego usamos decodeURIComponent para manejar correctamente los caracteres especiales
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2); // Convertimos a formato URI
+    }).join(''));
+    
+    // Finalmente convertimos el payload decodificado a un objeto JSON y lo retornamos
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+---------------------------
+function isTokenExpired(token) {
+  const decodedToken = parseJwt(token);
+  if (!decodedToken || !decodedToken.exp) {
+    return true; // Token inválido o sin fecha de expiración
+  }
+  const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+  return decodedToken.exp < currentTime; // Retorna true si el token ha expirado
+}
+------------------------------
+
+loadFile($event:any){
+    if($event.target.files[0].type.indexOf("image") < 0){
+      this.validation = "SOLAMENTE PUEDEN SER ARCHIVOS DE TIPO IMAGEN";
+      return;
+    }
+    this.validation = '';
+    this.FILE_AVATAR = $event.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(this.FILE_AVATAR);
+    reader.onloadend = () => this.IMAGEN_PREVIZUALIZA = reader.result;
+}
+
+____________________
+
+public function setCreatedAtAttribute($value)
+    {
+    	date_default_timezone_set('America/Lima');
+        $this->attributes["created_at"]= Carbon::now();
+    }
+
+    public function setUpdatedAtAttribute($value)
+    {
+    	date_default_timezone_set("America/Lima");
+        $this->attributes["updated_at"]= Carbon::now();
+    }
+_______________________
+'Perro','Gato','Hámster','Loro','Tortuga','Vaca','Caballo','Cuy','Toro'
+
+Gatos
+_________
+Siamés
+Persam
+Esfinge
+Escoces
+___
+Caballo
+____
+Pura Sangre
+Firson
+Cabllo árabe
+___
+Vaca y Toro
+__
+Holstein
+Simmental
+Brangus
+______________________________
+import { Spanish } from "flatpickr/dist/l10n/es";
+if(!compAttrs.config){
+  compAttrs.config = {locale: Spanish};
+}
+_______________________________
+
+                        <label for="">Fecha de nacimiento</label>
+                        <div class="app-picker-field">
+                            <div class="v-input v-input--horizontal v-input--center-affix v-input--density-comfortable v-locale--is-ltr position-relative v-text-field">
+                                <div class="v-input__control">
+                                    <div class="v-field v-field--center-affix v-field--variant-outlined v-theme--light v-locale--is-ltr">
+                                        <div class="v-field__field">
+                                            <div class="v-field__input">
+                                                <input type="date" class="flat-picker-custom-style flatpickr-input" v-model="form.dirth_date" style="opacity: 1;"  id="">
+                                            </div>
+                                        </div>
+                                        <div class="v-field__outline text-primary"><div class="v-field__outline__start"></div><div class="v-field__outline__notch"><label class="v-label v-field-			label v-field-label--floating" aria-hidden="true" for="input-8" style="">Nombre</label></div><div class="v-field__outline__end"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+_______________________________
+
+🔐 Roles y Permisos
+🧑‍🏭 Staffs
+Add Veterinarie 🧑‍⚕️
+🧑‍⚕️ Veterinarios
+🧑‍⚕️ Edit Veterinarie
+Add Pet 🐶
+ 🐕‍🦺 Mascota:
+ 🧔 Responsable:
+🐶 Pets
+🐶 Edit Pet :
+ 🐕‍🦺 Mascota:
+ 🧔 Responsable:
+_____________________
+
+date_default_timezone_set('America/Lima');
+Carbon::setLocale('es');
+DB::statement("SET lc_time_names = 'es_ES'");
+_____________________
+                        :config="{ minDate: 'today',disable: [
+                            (date) => {
+                                // Deshabilita sábados (6) y domingos (0)
+                                return date.getDay() === 0 || date.getDay() === 6;
+                            },
+                        ]}"
+________________________________
+
+$record->created_at->diffForHumans();
+________________________________
+
+composer require aws/aws-sdk-php
+
+https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox-moving-to-production.html
+______________
+https://www.youtube.com/watch?v=y7dWut7qE70
+
+<VirtualHost *:80>
+    ServerName laravest-app.dev
+    ServerAlias laravest-app.dev
+    DocumentRoot "C:\xampp\htdocs\test-app\public"
+    RewriteEngine on
+    RewriteCond %{SERVER_NAME} =www.laravest-app.dev [OR]
+    RewriteCond %{SERVER_NAME} =laravest-app.dev
+    RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName laravest-app.dev
+    ServerAlias laravest-app.dev
+    DocumentRoot "C:\xampp\htdocs\test-app\public"
+    SSLEngine on
+    SSLCertificateFile "crt/laravest-app.dev/server.crt"
+    SSLCertificateKeyFile "crt/laravest-app.dev/server.key"
+</VirtualHost>
+_______________
+
+$params = array(
+            "credentials" => array(
+                'key' => env("AWS_ACCESS_KEY_ID"),
+                'secret' => env("AWS_SECRET_ACCESS_KEY"),
+            ),
+            'region' => env("AWS_DEFAULT_REGION"),
+            'version' => 'latest'
+        );
+
+        $sns = new SnsClient($params);
+
+$args = array(
+            'MessageAttributes' => [
+                'AWS.SNS.SMS.SenderID' => [
+                    'DataType' => 'String',
+                    'StringValue' => 'Laravest'
+                ],
+                // 'AWS.SNS.SMS.MaxPrice' => [
+                //     'DataType' => 'Number',
+                //     'StringValue' => '0.50'
+                // ],
+                'AWS.SNS.SMS.SMSType' => [
+                    'DataType' => 'String',
+                    'StringValue' => 'Transactional'
+                ],
+            ],
+            "Message" => "HOLA DEV MENSAJE DE PRUEBA: 2234324",
+            "PhoneNumber" => env("AWS_PHONE"),
+        );
+
+        $result = $sns->publish($args);
+
+________________________________________
+
+CAST(SUM(appointment_payments.amount) AS DOUBLE PRECISION)
+______________
+
+public function kpi_pets_most_payments(Request $request){
+
+        $year = date("Y");
+        $month = '09';
+
+        $month_before = Carbon::parse($year."-".$month."-01")->subMonth();
+
+        // LA MASCOTA CON MAS PAGOS EN LA VETERINARIO
+        $pet_payments = collect([]);
+            // obtener la mascota con mayor pago a nivel de citas medicas
+        $appointments_pet_payment = DB::table("appointment_payments")->where("appointment_payments.deleted_at",NULL)
+                                    ->join("appointments","appointment_payments.appointment_id","=","appointments.id")
+                                    ->join("pets","appointments.pet_id","=","pets.id")
+                                    ->where("appointments.deleted_at",NULL)
+                                    ->whereYear("appointment_payments.created_at",$year)
+                                    ->whereMonth("appointment_payments.created_at",$month)
+                                    ->selectRaw("appointments.pet_id,pets.name, CAST(SUM(appointment_payments.amount) AS DOUBLE PRECISION) as payment_total, count(*) as count_payments")
+                                    ->groupBy("appointments.pet_id","pets.name")
+                                    ->orderBy("payment_total","desc")
+                                    ->first();
+        if($appointments_pet_payment){
+            $pet_payments->push($appointments_pet_payment);
+        }
+            // obtener la mascota con mayor pago a nivel de VACUNAS
+        $vaccination_pet_payment = DB::table("vaccination_payments")->where("vaccination_payments.deleted_at",NULL)
+                                    ->join("vaccinations","vaccination_payments.vaccination_id","=","vaccinations.id")
+                                    ->join("pets","vaccinations.pet_id","=","pets.id")
+                                    ->where("vaccinations.deleted_at",NULL)
+                                    ->whereYear("vaccination_payments.created_at",$year)
+                                    ->whereMonth("vaccination_payments.created_at",$month)
+                                    ->selectRaw("vaccinations.pet_id,pets.name, CAST(SUM(vaccination_payments.amount) AS DOUBLE PRECISION) as payment_total, count(*) as count_payments")
+                                    ->groupBy("vaccinations.pet_id","pets.name")
+                                    ->orderBy("payment_total","desc")
+                                    ->first();
+        if($vaccination_pet_payment){
+            $pet_payments->push($vaccination_pet_payment);
+        }
+            // obtener la mascota con mayor pago a nivel de CIRUJÍA
+        $surgerie_pet_payment = DB::table("surgerie_payments")->where("surgerie_payments.deleted_at",NULL)
+                                    ->join("surgeries","surgerie_payments.surgerie_id","=","surgeries.id")
+                                    ->join("pets","surgeries.pet_id","=","pets.id")
+                                    ->where("surgeries.deleted_at",NULL)
+                                    ->whereYear("surgerie_payments.created_at",$year)
+                                    ->whereMonth("surgerie_payments.created_at",$month)
+                                    ->selectRaw("surgeries.pet_id,pets.name, CAST(SUM(surgerie_payments.amount) AS DOUBLE PRECISION) as payment_total, count(*) as count_payments")
+                                    ->groupBy("surgeries.pet_id","pets.name")
+                                    ->orderBy("payment_total","desc")
+                                    ->first();
+        if($surgerie_pet_payment){
+            $pet_payments->push($surgerie_pet_payment);
+        }
+        $pets_groups = collect([]);
+        foreach ($pet_payments->groupBy("pet_id") as $key => $pet) {
+            $pets_groups->push([
+                "pet_id" => $key,
+                "name" => $pet[0]->name,
+                "payment_totals" => $pet->sum("payment_total")
+            ]);
+        }
+
+        $pet_most_payments = $pets_groups->isNotEmpty() ? $pets_groups->sortByDesc("payment_totals")->first() : NULL;
+        $VPPets = 0;$payments_total_before = 0;
+        if($pet_most_payments){
+            $pet_id = $pet_most_payments["pet_id"];
+            $payments_appointment_before = AppointmentPayment::whereYear("created_at",$year)
+                                            ->whereMonth("created_at",$month)
+                                            ->whereHas("appointment",function($q) use($pet_id){
+                                                $q->where("pet_id",$pet_id);
+                                            })->sum("amount");
+
+            $payments_vaccination_before = VaccinationPayment::whereYear("created_at",$year)
+                                            ->whereMonth("created_at",$month)
+                                            ->whereHas("vaccination",function($q) use($pet_id){
+                                                $q->where("pet_id",$pet_id);
+                                            })->sum("amount");
+
+            $payments_surgerie_before = SurgeriePayment::whereYear("created_at",$year)
+                                        ->whereMonth("created_at",$month)
+                                        ->whereHas("surgerie",function($q) use($pet_id){
+                                            $q->where("pet_id",$pet_id);
+                                        })->sum("amount");
+
+            $payments_total_before = $payments_appointment_before + $payments_vaccination_before + $payments_surgerie_before;
+
+            $VPPets = (($pet_most_payments["payment_totals"] - $payments_total_before)/$payments_total_before)*100;
+        }
+        return response()->json([
+            "VPPets" => round($VPPets,2),
+            "payments_total_before" => $payments_total_before,
+            "payments_vaccination_before" => $payments_vaccination_before,
+            "payments_surgerie_before" => $payments_surgerie_before,
+            "payments_appointment_before" => $payments_appointment_before,
+            "pet_most_payments" => $pet_most_payments,
+            "pets_groups" => $pets_groups,
+            "surgerie_pet_payment" => $surgerie_pet_payment,
+            "vaccination_pet_payment" => $vaccination_pet_payment,
+            "appointments_pet_payment" => $appointments_pet_payment,
+        ]);
+    }
+_____________________________________
+
+
+const month_list = ref([
+        {
+            id: '01',
+            name: 'Enero',
+        },
+        {
+            id: '02',
+            name: 'Febrero',
+        },
+        {
+            id: '03',
+            name: 'Marzo'
+        },
+        {
+            id: '04',
+            name: 'Abril',
+        },
+        {
+            id: '05',
+            name: 'Mayo',
+        },
+        {
+            id: '06',
+            name: 'Junio'
+        },
+        {
+            id: '07',
+            name: 'Julio',
+        },
+        {
+            id: '08',
+            name: 'Agosto',
+        },
+        {
+            id: '09',
+            name: 'Septiembre'
+        },
+        {
+            id: '10',
+            name: 'Octubre',
+        },
+        {
+            id: '11',
+            name: 'Noviembre',
+        },
+        {
+            id: '12',
+            name: 'Diciembre'
+        }
+    ]);
+
+const year_list = ref(['2023','2024','2025','2026','2027','2028']);
+
+https://cdn-icons-png.flaticon.com/512/8644/8644515.png
+
+

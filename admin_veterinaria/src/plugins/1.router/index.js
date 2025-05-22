@@ -1,5 +1,6 @@
 import { setupLayouts } from 'virtual:generated-layouts'
 import { createRouter, createWebHistory } from 'vue-router/auto'
+import { setupGuards } from './guards'
 
 function recursiveLayouts(route) {
   if (route.children) {
@@ -21,10 +22,36 @@ const router = createRouter({
     return { top: 0 }
   },
   extendRoutes: pages => [
-    ...[...pages].map(route => recursiveLayouts(route)),
+    ...[{
+    path: '/',
+    name: 'index',
+    redirect: to => {
+      // TODO: Get type from backend
+      const userData = useCookie('userData')
+      const userRole = userData.value?.role
+      if (userRole === 'admin')
+        return { name: 'dashboards-crm' }
+      if (userRole === 'client')
+        return { name: 'access-control' }
+      
+      return { name: 'login', query: to.query }
+    },
+  }
+    ],
+    ...[...pages,...[
+      {
+        path: '/productos-lista',
+        name: 'productos',
+        component: () => import('@/pages/products.vue'),
+        meta: {
+          not_authenticate: false,
+        }
+      }
+    ]].map(route => recursiveLayouts(route)),
   ],
 })
 
+setupGuards(router)
 export { router }
 export default function (app) {
   app.use(router)

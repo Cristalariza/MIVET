@@ -9,4 +9,9 @@ export default [
     to: { name: 'second-page' },
     icon: { icon: 'ri-file-text-line' },
   },
+  {
+    title: 'Three page',
+    to: { name: 'productos' },
+    icon: { icon: 'ri-file-list-2-fill' },
+  },
 ]

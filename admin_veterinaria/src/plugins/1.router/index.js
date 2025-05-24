@@ -12,7 +12,7 @@ function recursiveLayouts(route) {
   
   return setupLayouts([route])[0]
 }
-
+// http://localhost:5173/products
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to) {
@@ -22,31 +22,16 @@ const router = createRouter({
     return { top: 0 }
   },
   extendRoutes: pages => [
-    ...[{
-    path: '/',
-    name: 'index',
-    redirect: to => {
-      // TODO: Get type from backend
-      const userData = useCookie('userData')
-      const userRole = userData.value?.role
-      if (userRole === 'admin')
-        return { name: 'dashboards-crm' }
-      if (userRole === 'client')
-        return { name: 'access-control' }
-      
-      return { name: 'login', query: to.query }
-    },
-  }
-    ],
+   //
     ...[...pages,...[
-      {
-        path: '/productos-lista',
-        name: 'productos',
-        component: () => import('@/pages/products.vue'),
-        meta: {
-          not_authenticate: false,
-        }
-      }
+      // {
+      //   path:'/productos-lista',
+      //   name: 'productos',
+      //   component: () => import('@/pages/products.vue'),
+      //   meta: {
+      //     not_authenticate: false,
+      //   }
+      // }
     ]].map(route => recursiveLayouts(route)),
   ],
 })

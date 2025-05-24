@@ -62,10 +62,14 @@ const store = async() => {
     warning.value = resp.message_text;
    }else{
         success.value = "El rol se ha creado correctamente";
-   }
-    setTimeout(() => {
+   setTimeout(() => {
+        success.value = null;
+        warning.value = null;
+        role.value = null;
+        permissions.value = [];
         emit('update:isDialogVisible', false);
     }, 1500);
+    }
     } catch (error) {
         console.log(error);
        error_exists.value = error;  

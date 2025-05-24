@@ -1,61 +1,20 @@
 <script setup>
-import americanExDark from '@images/icons/payments/img/ae-dark.png'
-import americanExLight from '@images/icons/payments/img/american-express.png'
-import dcDark from '@images/icons/payments/img/dc-dark.png'
-import dcLight from '@images/icons/payments/img/dc-light.png'
-import jcbDark from '@images/icons/payments/img/jcb-dark.png'
-import jcbLight from '@images/icons/payments/img/jcb-light.png'
-import masterCardDark from '@images/icons/payments/img/master-dark.png'
-import masterCardLight from '@images/icons/payments/img/mastercard.png'
-import visaDark from '@images/icons/payments/img/visa-dark.png'
-import visaLight from '@images/icons/payments/img/visa-light.png'
+// import { PERMISOS } from '@/utils/constants';
 
 const props = defineProps({
   isDialogVisible: {
     type: Boolean,
     required: true,
   },
-})
+});
 
-const emit = defineEmits(['update:isDialogVisible'])
+const emit = defineEmits(["update:isDialogVisible"]);
 
-const visa = useGenerateImageVariant(visaLight, visaDark)
-const masterCard = useGenerateImageVariant(masterCardLight, masterCardDark)
-const americanEx = useGenerateImageVariant(americanExLight, americanExDark)
-const jcb = useGenerateImageVariant(jcbLight, jcbDark)
-const dc = useGenerateImageVariant(dcLight, dcDark)
+const dialogVisibleUpdate = (val) => {
+  emit("update:isDialogVisible", val);
+};
 
-const dialogVisibleUpdate = val => {
-  emit('update:isDialogVisible', val)
-}
-
-const paymentMethodsData = [
-  {
-    title: 'Visa',
-    type: 'Credit Card',
-    img: visa,
-  },
-  {
-    title: 'American Express',
-    type: 'Credit Card',
-    img: americanEx,
-  },
-  {
-    title: 'Mastercard',
-    type: 'Credit Card',
-    img: masterCard,
-  },
-  {
-    title: 'JCB',
-    type: 'Credit Card',
-    img: jcb,
-  },
-  {
-    title: 'Diners Club',
-    type: 'Credit Card',
-    img: dc,
-  },
-]
+const LIST_PERMISSION = PERMISOS;
 </script>
 
 <template>
@@ -74,36 +33,43 @@ const paymentMethodsData = [
 
       <VCardText class="pa-5">
         <div class="mb-6">
-          <h4 class="text-h4 text-center mb-2">
-            Add payment methods
-          </h4>
-          <p class="text-sm-body-1 text-center">
-            Supported payment methods
-          </p>
+          <h4 class="text-h4 text-center mb-2">Add Role</h4>
         </div>
 
-        <div
-          v-for="(item, index) in paymentMethodsData"
-          :key="index"
-        >
-          <div class="d-flex justify-space-between align-center py-4 gap-x-4">
-            <div class="d-flex align-center">
-              <VImg
-                :src="item.img.value"
-                height="30"
-                width="50"
-                class="me-4"
-              />
-              <div class="text-body-1 font-weight-medium text-high-emphasis">
-                {{ item.title }}
-              </div>
-            </div>
-            <div class="d-none d-sm-block text-body-1">
-              {{ item.type }}
-            </div>
-          </div>
-          <VDivider v-show="index !== paymentMethodsData.length - 1" />
-        </div>
+        <VTextField label="Rol:" placeholder="Example: Administrador" />
+      </VCardText>
+
+      <VCardText class="pa-5">
+        <VBtn color="primary" class="mb-4">
+            Crear 
+            </VBtn>
+        <VTable>
+          <thead>
+            <tr>
+              <th class="text-uppercase"> Modulo</th>
+              <th class="text-uppercase">Permisos</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr v-for="(item, index) in LIST_PERMISSION" :key="index">
+              <td>
+                {{ item.name }}
+              </td>
+              <td>
+                <ul>
+                    <li  v-for="(permiso, index2) in item.permisos" :key="index2" style="list-style:none;">
+                        <VCheckbox
+                            :label="permiso.name"
+                            :value="permiso.permiso"
+                            />
+                    </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </VTable>
+        
       </VCardText>
     </VCard>
   </VDialog>

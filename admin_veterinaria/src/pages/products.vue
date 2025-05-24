@@ -85,13 +85,16 @@
       
     </div>
 </template>
+
 <script setup>
 const items = ['Foo', 'Bar', 'Fizz', 'Buzz']
-import { VCol } from 'vuetify/components';
 
-/*definePage({
+// Si necesitas que esta página requiera autenticación, usa:
+definePage({
   meta: {
-    not_authenticate: false,
+    // La página requiere autenticación por defecto
+    // Si quieres que sea pública, añade: public: true
+    // Si quieres que solo usuarios no autenticados accedan: unauthenticatedOnly: true
   },
-})*/
+})
 </script>

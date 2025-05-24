@@ -8,13 +8,20 @@ declare global {
   const $api: typeof import('./src/utils/api.js')['$api']
   const COOKIE_MAX_AGE_1_YEAR: typeof import('./src/utils/constants.js')['COOKIE_MAX_AGE_1_YEAR']
   const EffectScope: typeof import('vue')['EffectScope']
+  const PERMISOS: typeof import('./src/utils/constants.js')['PERMISOS']
   const acceptHMRUpdate: typeof import('pinia')['acceptHMRUpdate']
   const alphaDashValidator: typeof import('./src/@core/utils/validators.js')['alphaDashValidator']
   const alphaValidator: typeof import('./src/@core/utils/validators.js')['alphaValidator']
+  const apiDelete: typeof import('./src/utils/api.js')['apiDelete']
+  const apiGet: typeof import('./src/utils/api.js')['apiGet']
+  const apiPost: typeof import('./src/utils/api.js')['apiPost']
+  const apiPut: typeof import('./src/utils/api.js')['apiPut']
+  const apiRequest: typeof import('./src/utils/api.js')['apiRequest']
   const asyncComputed: typeof import('@vueuse/core')['asyncComputed']
   const autoResetRef: typeof import('@vueuse/core')['autoResetRef']
   const avatarText: typeof import('./src/@core/utils/formatters.js')['avatarText']
   const betweenValidator: typeof import('./src/@core/utils/validators.js')['betweenValidator']
+  const clearTokenCache: typeof import('./src/utils/api.js')['clearTokenCache']
   const computed: typeof import('vue')['computed']
   const computedAsync: typeof import('@vueuse/core')['computedAsync']
   const computedEager: typeof import('@vueuse/core')['computedEager']
@@ -360,6 +367,7 @@ declare module 'vue' {
     readonly $api: UnwrapRef<typeof import('./src/utils/api.js')['$api']>
     readonly COOKIE_MAX_AGE_1_YEAR: UnwrapRef<typeof import('./src/utils/constants.js')['COOKIE_MAX_AGE_1_YEAR']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly PERMISOS: UnwrapRef<typeof import('./src/utils/constants.js')['PERMISOS']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly alphaDashValidator: UnwrapRef<typeof import('./src/@core/utils/validators.js')['alphaDashValidator']>
     readonly alphaValidator: UnwrapRef<typeof import('./src/@core/utils/validators.js')['alphaValidator']>
@@ -705,6 +713,7 @@ declare module '@vue/runtime-core' {
     readonly $api: UnwrapRef<typeof import('./src/utils/api.js')['$api']>
     readonly COOKIE_MAX_AGE_1_YEAR: UnwrapRef<typeof import('./src/utils/constants.js')['COOKIE_MAX_AGE_1_YEAR']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly PERMISOS: UnwrapRef<typeof import('./src/utils/constants.js')['PERMISOS']>
     readonly acceptHMRUpdate: UnwrapRef<typeof import('pinia')['acceptHMRUpdate']>
     readonly alphaDashValidator: UnwrapRef<typeof import('./src/@core/utils/validators.js')['alphaDashValidator']>
     readonly alphaValidator: UnwrapRef<typeof import('./src/@core/utils/validators.js')['alphaValidator']>

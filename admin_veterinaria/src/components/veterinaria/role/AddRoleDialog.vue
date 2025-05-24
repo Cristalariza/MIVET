@@ -1,4 +1,6 @@
 <script setup>
+import AddEditPermissionDialog from '@/components/dialogs/AddEditPermissionDialog.vue';
+
 // import { PERMISOS } from '@/utils/constants';
 
 const props = defineProps({
@@ -8,6 +10,7 @@ const props = defineProps({
   },
 });
 
+
 const emit = defineEmits(["update:isDialogVisible"]);
 
 const dialogVisibleUpdate = (val) => {
@@ -15,6 +18,60 @@ const dialogVisibleUpdate = (val) => {
 };
 
 const LIST_PERMISSION = PERMISOS;
+const role = ref(null);
+const permissions = ref([]);
+const warning = ref(null);
+const success = ref(null);
+const error_exists = ref(null);
+
+const addPermission = (permiso) => {
+    let INDEX = permissions.value.findIndex((perm) => perm == permiso);
+    if (INDEX != -1){
+        permissions.value.splice(INDEX,1);
+    }else{
+        permissions.value.push(permiso);
+    }
+    console.log(permissions.value);
+}
+const store = async() => {
+    warning.value = null;
+    if(!role.value){
+        warning.value = "Debe llenar el nombre del rol";
+        return;
+    }
+    if(permissions.value.length == 0){
+        warning.value = "Debe seleccionar al menos un permiso";
+        return;
+    }
+    let data = {
+        name: role.value,
+        permissions: permissions.value,
+
+    }
+    try {
+        const resp = await $api('/role', {
+    method: 'POST',
+    body:data,
+    onResponseError({response}){
+      console.log(response);
+      error_exists.value = response._data.error;
+    }
+   })
+   console.log(resp);
+   if(resp.message == 403){
+    warning.value = resp.message_text;
+   }else{
+        success.value = "El rol se ha creado correctamente";
+   }
+    setTimeout(() => {
+        emit('update:isDialogVisible', false);
+    }, 1500);
+    } catch (error) {
+        console.log(error);
+       error_exists.value = error;  
+
+    }
+}
 </script>
 
 <template>
@@ -36,11 +93,20 @@ const LIST_PERMISSION = PERMISOS;
           <h4 class="text-h4 text-center mb-2">Add Role</h4>
         </div>
 
-        <VTextField label="Rol:" placeholder="Example: Administrador" />
+        <VTextField label="Rol:" v-model= "role" placeholder="Example: Administrador" />
+        
+        <VAlert type="warning" class = "mt-3" v-if="warning">
+             <strong>{{ warning }}</strong>
+        </VAlert>
+        <VAlert type="error" class = "mt-3" v-if="error_exists">
+             <strong>Hubo un error al guardar en el servidor</strong>
+        </VAlert>
+        <VAlert type="success" class = "mt-3" v-if="success">
+             <strong>{{ success }}</strong>
+        </VAlert>
       </VCardText>
-
       <VCardText class="pa-5">
-        <VBtn color="primary" class="mb-4">
+        <VBtn color="primary" class="mb-4" @click="store()">
             Crear 
             </VBtn>
         <VTable>
@@ -62,6 +128,7 @@ const LIST_PERMISSION = PERMISOS;
                         <VCheckbox
                             :label="permiso.name"
                             :value="permiso.permiso"
+                            @click="addPermission(permiso.permiso)"
                             />
                     </li>
                 </ul>

@@ -43,7 +43,7 @@ const router = createRouter({
        {
         path:'/roles-y-permisos',
         name: 'roles-y-permisos',
-        component: () => import('@/pages/roles-y-permisos.vue'),
+        component: () => import('@/pages/roles-permisos.vue'),
         meta: {
           // Aquí puedes agregar metadatos específicos para esta ruta
         }

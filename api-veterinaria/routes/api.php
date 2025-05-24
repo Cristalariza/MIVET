@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Rol\RoleController;
  
 Route::group([
     // 'middleware' => 'api',
@@ -12,4 +13,10 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout'); //->middleware('auth:api')
     Route::post('/refresh', [AuthController::class, 'refresh'])->name('refresh'); //->middleware('auth:api')
     Route::post('/me', [AuthController::class, 'me'])->name('me'); //->middleware('auth:api')
+});
+
+Route::group([
+    'midleware' => ['auth:api']
+], function($route){
+        Route::resource("role", RoleController::class);
 });

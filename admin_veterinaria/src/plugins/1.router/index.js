@@ -22,16 +22,25 @@ const router = createRouter({
     return { top: 0 }
   },
   extendRoutes: pages => [
-   //
+    ...[{
+      path: '/',
+      name: 'index',
+      redirect: to => {
+        // TODO: Get type from backend
+        const userData = localStorage.getItem('user');
+        if (!userData )
+          return {name : 'dashboard'};
+          return {name: 'login', query: to.query }
+      },
+    }],
     ...[...pages,...[
-      // {
-      //   path:'/productos-lista',
-      //   name: 'productos',
-      //   component: () => import('@/pages/products.vue'),
-      //   meta: {
-      //     not_authenticate: false,
-      //   }
-      // }
+       {
+        path:'/roles-y-permisos',
+        name: 'roles-y-permisos',
+        component: () => import('@/pages/roles-y-permisos.vue'),
+         meta: {
+      }
+    }
     ]].map(route => recursiveLayouts(route)),
   ],
 })

@@ -119,7 +119,7 @@ export default [
   //   children: [
   //     {
   //       title: 'CRM',
-  //       to: 'second-page',
+  //       to: 'dashboard',
   //       icon: { icon: 'ri-computer-line' },
   //     },
   //     {

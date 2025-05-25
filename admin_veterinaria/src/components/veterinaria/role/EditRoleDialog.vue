@@ -1,5 +1,4 @@
 <script setup>
-
 const props = defineProps({
   isDialogVisible: {
     type: Boolean,
@@ -8,14 +7,14 @@ const props = defineProps({
   rolSelected: {
     type: Object,
     required: true,
-  }
-})
+  },
+});
 
-const emit = defineEmits(['update:isDialogVisible','addRole'])
+const emit = defineEmits(["update:isDialogVisible", "addRole"]);
 
-const dialogVisibleUpdate = val => {
-  emit('update:isDialogVisible', val)
-}
+const dialogVisibleUpdate = (val) => {
+  emit("update:isDialogVisible", val);
+};
 const LIST_PERMISSION = PERMISOS;
 const role = ref(null);
 const permissions = ref([]);
@@ -26,21 +25,21 @@ const role_selected = ref(null);
 
 const addPermission = (permiso) => {
   let INDEX = permissions.value.findIndex((perm) => perm == permiso);
-  if(INDEX != -1){
-    permissions.value.splice(INDEX,1);
-  }else{
+  if (INDEX != -1) {
+    permissions.value.splice(INDEX, 1);
+  } else {
     permissions.value.push(permiso);
   }
   console.log(permissions.value);
-}
+};
 
-const store = async() => {
+const store = async () => {
   warning.value = null;
-  if(!role.value){
+  if (!role.value) {
     warning.value = "Se debe llenar el nombre del rol";
     return;
   }
-  if(permissions.value.length == 0){
+  if (permissions.value.length == 0) {
     warning.value = "Se debe seleccionar al menos un permiso";
     return;
   }
@@ -48,36 +47,45 @@ const store = async() => {
   let data = {
     name: role.value,
     permissions: permissions.value,
-  }
+  };
 
   try {
-    const resp =  await $api('/role/'+role_selected.value.id,{
-        method: 'PATCH',
-        body:data,
-        onResponseError({response}){
-          console.log(response);
-          error_exists.value = response._data.error;
-        }
-    })
+    const resp = await $api("/role/" + role_selected.value.id, {
+      method: "PATCH",
+      body: data,
+      onResponseError({ response }) {
+        console.log(response);
+        error_exists.value = response._data.error;
+      },
+    });
     console.log(resp);
-    if(resp.message == 403){
+    if (resp.message == 403) {
       warning.value = resp.message_text;
-    }else{
+    } else {
       success.value = "El rol se ha editado correctamente";
-      emit('addRole', true)
+
+      setTimeout(() => {
+        success.value = null;
+        warning.value = null;
+        role.value = null;
+        permissions.value = [];
+        emit("update:isDialogVisible", false);
+        emit("addRole", true);
+      }, 1500);
+
     }
   } catch (error) {
     console.log(error);
     error_exists.value = error;
   }
-}
+};
 
 onMounted(() => {
   role_selected.value = props.rolSelected;
   console.log(role_selected.value);
   role.value = role_selected.value.name;
   permissions.value = role_selected.value.permissions_pluck;
-})
+});
 </script>
 
 <template>
@@ -121,32 +129,27 @@ onMounted(() => {
         </VAlert>
       </VCardText>
       <VCardText class="pa-5">
-        <VBtn color="primary" class="mb-4" @click="store()">
-          Editar
-        </VBtn>
+        <VBtn color="primary" class="mb-4" @click="store()"> Editar </VBtn>
         <VTable>
           <thead>
             <tr>
-              <th class="text-uppercase">
-                Modulo
-              </th>
-              <th class="text-uppercase">
-                Permisos
-              </th>
+              <th class="text-uppercase">Modulo</th>
+              <th class="text-uppercase">Permisos</th>
             </tr>
           </thead>
-  
+
           <tbody>
-            <tr
-              v-for="(item, index) in LIST_PERMISSION"
-              :key="index"
-            >
+            <tr v-for="(item, index) in LIST_PERMISSION" :key="index">
               <td>
                 {{ item.name }}
               </td>
               <td>
                 <ul>
-                  <li v-for="(permiso, index2) in item.permisos" :key="index2" style="list-style: none;">
+                  <li
+                    v-for="(permiso, index2) in item.permisos"
+                    :key="index2"
+                    style="list-style: none"
+                  >
                     <VCheckbox
                       v-model="permissions"
                       :label="permiso.name"
@@ -160,7 +163,6 @@ onMounted(() => {
           </tbody>
         </VTable>
       </VCardText>
-
     </VCard>
   </VDialog>
 </template>

@@ -1,5 +1,4 @@
 <script setup>
-
 const props = defineProps({
   isDialogVisible: {
     type: Boolean,
@@ -8,44 +7,45 @@ const props = defineProps({
   rolSelected: {
     type: Object,
     required: true,
-  }
-})
+  },
+});
 
-const emit = defineEmits(['update:isDialogVisible','addRole'])
+const emit = defineEmits(["update:isDialogVisible", "addRole"]);
 
-const dialogVisibleUpdate = val => {
-  emit('update:isDialogVisible', val)
-}
+const dialogVisibleUpdate = (val) => {
+  emit("update:isDialogVisible", val);
+};
 
 const warning = ref(null);
 const success = ref(null);
 const error_exists = ref(null);
 const role_selected = ref(null);
 
-const deleted = async() => {
+const deleted = async () => {
   try {
-    const resp =  await $api('/role/'+role_selected.value.id,{
-        method: 'DELETE',
-        onResponseError({response}){
-          console.log(response);
-          error_exists.value = response._data.error;
-        }
-    })
+    const resp = await $api("/role/" + role_selected.value.id, {
+      method: "DELETE",
+      onResponseError({ response }) {
+        console.log(response);
+        error_exists.value = response._data.error;
+      },
+    });
     console.log(resp);
-    debugger;
     success.value = "El rol se ha eliminado correctamente";
-    emit('addRole', true)
-    emit('update:isDialogVisible', false)
+    setTimeout(() => {
+      emit("addRole", true);
+      emit("update:isDialogVisible", false);
+    }, 1000);
   } catch (error) {
     console.log(error);
     error_exists.value = error;
   }
-}
+};
 
 onMounted(() => {
   role_selected.value = props.rolSelected;
   console.log(role_selected.value);
-})
+});
 </script>
 
 <template>
@@ -71,7 +71,9 @@ onMounted(() => {
             Supported payment methods
           </p> -->
         </div>
-        <p v-if="role_selected">¿Estas seguro de eliminar el ROL "{{ role_selected.name }}"?</p>
+        <p v-if="role_selected">
+          ¿Estas seguro de eliminar el ROL "{{ role_selected.name }}"?
+        </p>
         <VAlert type="error" class="mt-3" v-if="error_exists">
           <strong>En el servidor hubo un error al guardar</strong>
         </VAlert>
@@ -80,11 +82,8 @@ onMounted(() => {
         </VAlert>
       </VCardText>
       <VCardText class="pa-5">
-        <VBtn color="error" class="mb-4" @click="deleted()">
-          Eliminar
-        </VBtn>
+        <VBtn color="error" class="mb-4" @click="deleted()"> Eliminar </VBtn>
       </VCardText>
-
     </VCard>
   </VDialog>
 </template>

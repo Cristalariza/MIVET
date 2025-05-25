@@ -11,7 +11,7 @@ const props = defineProps({
 });
 
 
-const emit = defineEmits(["update:isDialogVisible"]);
+const emit = defineEmits(['update:isDialogVisible', 'addRole']);
 
 const dialogVisibleUpdate = (val) => {
   emit("update:isDialogVisible", val);
@@ -68,6 +68,7 @@ const store = async() => {
         role.value = null;
         permissions.value = [];
         emit('update:isDialogVisible', false);
+        emit("addRole", true);
     }, 1500);
     }
     } catch (error) {

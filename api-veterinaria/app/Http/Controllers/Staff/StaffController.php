@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Staff;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -19,16 +20,16 @@ class StaffController extends Controller
     {
         $search = $request->get("search");
 
-        $users = User::where("name","ilike","%".$search."%")->orderBy("id","desc")->get();
+        $users = User::where(DB::raw("users.name || ' ' || COALESCE(users.surname,'') || ' ' || users.email"),"ilike","%".$search."%")->orderBy("id","desc")->get();
 
         return response()->json([
             "users" => UserCollection::make($users),
-            //"roles" => Role::where("name","not ilike","%veterinario%")->get()->map(function($role) {
-               // return [
-                //    "id" => $role->id,
-                //    "name" => $role->name
-         //       ];
-          //  })
+            "roles" => Role::where("name","not ilike","%veterinario%")->get()->map(function($role) {
+                return [
+                    "id" => $role->id,
+                    "name" => $role->name
+                ];
+            })
         ]);
     }
 
@@ -51,9 +52,9 @@ class StaffController extends Controller
         if($request->password){
             $request->request->add(["password" => bcrypt($request->password)]);
         }
-        //if($request->birthday){
-         //   $request->request->add(["birthday" => $request->birthday." 00:00:00"]);
-       // }
+        if($request->birthday){
+            $request->request->add(["birthday" => $request->birthday." 00:00:00"]);
+        }
         $user = User::create($request->all());
         $role = Role::findOrFail($request->role_id);
         $user->assignRole($role);
@@ -95,9 +96,9 @@ class StaffController extends Controller
         if($request->password){
             $request->request->add(["password" => bcrypt($request->password)]);
         }
-       // if($request->birthday){
-        //    $request->request->add(["birthday" => $request->birthday." 00:00:00"]);
-        //}
+        if($request->birthday){
+            $request->request->add(["birthday" => $request->birthday." 00:00:00"]);
+        }
         $user->update($request->all());
 
         if($request->role_id && $request->role_id != $user->role_id){

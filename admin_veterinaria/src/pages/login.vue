@@ -51,7 +51,8 @@ const login = async () => {
     success_exists.value = true;
     setTimeout(async () => {
       await nextTick(() => {
-        router.replace(route.query.to ? String(route.query.to) : '/')
+        // router.replace(route.query.to ? String(route.query.to) : '/')
+        document.location.reload();
       })
     }, 1500);
   } catch (error) {

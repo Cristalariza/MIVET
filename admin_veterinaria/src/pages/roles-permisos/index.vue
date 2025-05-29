@@ -69,7 +69,12 @@
             role_selected_deleted.value = null;
         }
     })
-    
+
+    definePage({
+        meta: {
+            permisssion: 'list_rol'
+        },
+    })
 </script>
 
 <template>

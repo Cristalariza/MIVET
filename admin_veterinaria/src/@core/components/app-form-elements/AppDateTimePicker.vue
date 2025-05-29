@@ -1,135 +1,22 @@
-<script setup>
-import FlatPickr from 'vue-flatpickr-component'
-import { useTheme } from 'vuetify'
-import {
-  VField,
-  filterFieldProps,
-  makeVFieldProps,
-} from 'vuetify/lib/components/VField/VField'
-import {
-  VInput,
-  makeVInputProps,
-} from 'vuetify/lib/components/VInput/VInput'
-
-
-import { filterInputAttrs } from 'vuetify/lib/util/helpers'
-import { useConfigStore } from '@core/stores/config'
-
-const props = defineProps({
-  autofocus: Boolean,
-  counter: [
-    Boolean,
-    Number,
-    String,
-  ],
-  counterValue: Function,
-  prefix: String,
-  placeholder: String,
-  persistentPlaceholder: Boolean,
-  persistentCounter: Boolean,
-  suffix: String,
-  type: {
-    type: String,
-    default: 'text',
-  },
-  modelModifiers: Object,
-  ...makeVInputProps({
-    density: 'comfortable',
-    hideDetails: 'auto',
-  }),
-  ...makeVFieldProps({
-    variant: 'outlined',
-    color: 'primary',
-  }),
-})
-
-const emit = defineEmits([
-  'click:control',
-  'mousedown:control',
-  'update:focused',
-  'update:modelValue',
-  'click:clear',
-])
-
-defineOptions({
-  inheritAttrs: false,
-})
-
-const configStore = useConfigStore()
-const attrs = useAttrs()
-const [rootAttrs, compAttrs] = filterInputAttrs(attrs)
-
-const {
-  modelValue: _,
-  ...inputProps
-} = VInput.filterProps(props)
-
-const fieldProps = filterFieldProps(props)
-const refFlatPicker = ref()
-const { focused } = useFocus(refFlatPicker)
-const isCalendarOpen = ref(false)
-const isInlinePicker = ref(false)
-
-// flat picker prop manipulation
-if (compAttrs.config && compAttrs.config.inline) {
-  isInlinePicker.value = compAttrs.config.inline
-  Object.assign(compAttrs, { altInputClass: 'inlinePicker' })
-}
-compAttrs.config = {
-  ...compAttrs.config,
-  prevArrow: '<i class="ri-arrow-left-s-line v-icon" style="font-size: 22px; height: 22px; width: 22px;"></i>',
-  nextArrow: '<i class="ri-arrow-right-s-line v-icon" style="font-size: 22px; height: 22px; width: 22px;"></i>',
-}
-
-const onClear = el => {
-  el.stopPropagation()
-  nextTick(() => {
-    emit('update:modelValue', '')
-    emit('click:clear', el)
-  })
-}
-
-const vuetifyTheme = useTheme()
-const vuetifyThemesName = Object.keys(vuetifyTheme.themes.value)
-
-// Themes class added to flat-picker component for light and dark support
-const updateThemeClassInCalendar = () => {
-
-  // ℹ️ Flatpickr don't render it's instance in mobile and device simulator
-  if (!refFlatPicker.value.fp.calendarContainer)
-    return
-  vuetifyThemesName.forEach(t => {
-    refFlatPicker.value.fp.calendarContainer.classList.remove(`v-theme--${ t }`)
-  })
-  refFlatPicker.value.fp.calendarContainer.classList.add(`v-theme--${ vuetifyTheme.global.name.value }`)
-}
-
-watch(() => configStore.theme, updateThemeClassInCalendar)
-onMounted(() => {
-  updateThemeClassInCalendar()
-})
-
-const emitModelValue = val => {
-  emit('update:modelValue', val)
-}
-</script>
-
+<!-- src/@core/components/app-form-elements/AppDateTimePicker.vue -->
 <template>
   <div class="app-picker-field">
     <VInput
       v-bind="{ ...inputProps, ...rootAttrs }"
       :model-value="modelValue"
       :hide-details="props.hideDetails"
-      :class="[{
-        'v-text-field--prefixed': props.prefix,
-        'v-text-field--suffixed': props.suffix,
-        'v-text-field--flush-details': ['plain', 'underlined'].includes(props.variant),
-      }, props.class]"
+      :class="[
+        {
+          'v-text-field--prefixed': props.prefix,
+          'v-text-field--suffixed': props.suffix,
+          'v-text-field--flush-details': ['plain','underlined'].includes(props.variant),
+        },
+        props.class
+      ]"
       class="position-relative v-text-field"
       :style="props.style"
     >
       <template #default="{ id, isDirty, isValid, isDisabled, isReadonly }">
-        <!-- v-field -->
         <VField
           v-bind="{ ...fieldProps }"
           :id="id.value"
@@ -143,7 +30,7 @@ const emitModelValue = val => {
         >
           <template #default="{ props: vFieldProps }">
             <div v-bind="vFieldProps">
-              <!-- flat-picker  -->
+              <!-- Pop-up FlatPickr -->
               <FlatPickr
                 v-if="!isInlinePicker"
                 v-bind="compAttrs"
@@ -157,23 +44,22 @@ const emitModelValue = val => {
                 @on-close="isCalendarOpen = false"
                 @update:model-value="emitModelValue"
               />
-
-              <!-- simple input for inline prop -->
+              <!-- Fallback input in inline mode -->
               <input
-                v-if="isInlinePicker"
+                v-else
                 :value="modelValue"
                 :placeholder="props.placeholder"
                 :readonly="isReadonly.value"
                 class="flat-picker-custom-style"
                 type="text"
-              >
+              />
             </div>
           </template>
         </VField>
       </template>
     </VInput>
 
-    <!-- flat picker for inline props -->
+    <!-- FlatPickr en inline mode -->
     <FlatPickr
       v-if="isInlinePicker"
       v-bind="compAttrs"
@@ -186,25 +72,155 @@ const emitModelValue = val => {
   </div>
 </template>
 
+<script setup>
+import { ref, nextTick, watch, onMounted, useAttrs } from 'vue'
+import FlatPickr from 'vue-flatpickr-component'
+import { useTheme } from 'vuetify'
+import {
+  VField,
+  filterFieldProps,
+  makeVFieldProps,
+} from 'vuetify/lib/components/VField/VField'
+import {
+  VInput,
+  makeVInputProps,
+} from 'vuetify/lib/components/VInput/VInput'
+import { filterInputAttrs } from 'vuetify/lib/util/helpers'
+import { useConfigStore } from '@core/stores/config'
+import { useFocus } from 'vuetify/lib/composables/focus'
+
+const props = defineProps({
+  autofocus: Boolean,
+  counter: [ Boolean, Number, String ],
+  counterValue: Function,
+  prefix: String,
+  placeholder: String,
+  persistentPlaceholder: Boolean,
+  persistentCounter: Boolean,
+  suffix: String,
+  type: { type: String, default: 'text' },
+  modelModifiers: Object,
+  ...makeVInputProps({ density: 'comfortable', hideDetails: 'auto' }),
+  ...makeVFieldProps({ variant: 'outlined', color: 'primary' }),
+})
+
+const emit = defineEmits([
+  'click:control',
+  'mousedown:control',
+  'update:focused',
+  'update:modelValue',
+  'click:clear',
+])
+
+defineOptions({ inheritAttrs: false })
+
+// Store & attrs
+const configStore = useConfigStore()
+const attrs       = useAttrs()
+const [rootAttrs, compAttrs] = filterInputAttrs(attrs)
+
+// Split props
+const { modelValue: _ignore, ...inputProps } = VInput.filterProps(props)
+const fieldProps = filterFieldProps(props)
+
+// Refs & state
+const refFlatPicker  = ref(null)
+const { focused }    = useFocus(refFlatPicker)
+const isCalendarOpen = ref(false)
+const isInlinePicker = ref(false)
+
+// Detect inline
+if (compAttrs.config && compAttrs.config.inline) {
+  isInlinePicker.value = compAttrs.config.inline
+  Object.assign(compAttrs, { altInputClass: 'inlinePicker' })
+}
+
+// Inject year-jump buttons + dropdown
+function addYearNav(fp) {
+  const nav = fp.calendarContainer.querySelector('.flatpickr-months')
+  if (!nav || nav.dataset.yearInjected) return
+  nav.dataset.yearInjected = 'true'
+
+  // ← año
+  const btnPrevYear = document.createElement('span')
+  btnPrevYear.classList.add('flatpickr-prev-year')
+  btnPrevYear.innerHTML = '<i class="ri-arrow-left-s-line v-icon"></i>'
+  btnPrevYear.addEventListener('click', () => fp.changeMonth(-12))
+  nav.insertBefore(btnPrevYear, nav.firstChild)
+
+  // selector de año
+  const sel = document.createElement('select')
+  sel.classList.add('flatpickr-year-dropdown')
+  const curY = fp.currentYear
+  const minY = fp.config.minDate?.getFullYear() ?? curY - 100
+  const maxY = fp.config.maxDate?.getFullYear() ?? curY + 50
+  for (let y = minY; y <= maxY; y++) {
+    const opt = document.createElement('option')
+    opt.value = y
+    opt.textContent = y
+    if (y === curY) opt.selected = true
+    sel.appendChild(opt)
+  }
+  sel.addEventListener('change', e => fp.changeYear(+e.target.value))
+  btnPrevYear.insertAdjacentElement('afterend', sel)
+
+  // → año
+  const btnNextYear = document.createElement('span')
+  btnNextYear.classList.add('flatpickr-next-year')
+  btnNextYear.innerHTML = '<i class="ri-arrow-right-s-line v-icon"></i>'
+  btnNextYear.addEventListener('click', () => fp.changeMonth(12))
+  nav.appendChild(btnNextYear)
+}
+
+// Extiende configuración de FlatPickr
+compAttrs.config = {
+  ...compAttrs.config,
+  monthSelectorType: 'dropdown',
+  allowInput: true,
+  prevArrow: `<i class="ri-arrow-left-s-line v-icon" style="font-size:22px;height:22px;width:22px;"></i>`,
+  nextArrow: `<i class="ri-arrow-right-s-line v-icon" style="font-size:22px;height:22px;width:22px;"></i>`,
+  onReady:       [(_d,_s,fp) => addYearNav(fp)],
+  onMonthChange: [(_d,_s,fp) => addYearNav(fp)],
+}
+
+const onClear = e => {
+  e.stopPropagation()
+  nextTick(() => {
+    emit('update:modelValue','')
+    emit('click:clear',e)
+  })
+}
+
+// Sincroniza tema
+const vuetifyTheme = useTheme()
+const themeNames   = Object.keys(vuetifyTheme.themes.value)
+function updateThemeClass() {
+  const cal = refFlatPicker.value?.fp?.calendarContainer
+  if (!cal) return
+  themeNames.forEach(t => cal.classList.remove(`v-theme--${t}`))
+  cal.classList.add(`v-theme--${vuetifyTheme.global.name.value}`)
+}
+watch(() => configStore.theme, updateThemeClass)
+onMounted(updateThemeClass)
+
+const emitModelValue = v => emit('update:modelValue', v)
+</script>
+
 <style lang="scss">
-/* stylelint-disable no-descending-specificity */
 @use "flatpickr/dist/flatpickr.css";
 @use "@core/scss/base/mixins";
 
 .flat-picker-custom-style {
   position: absolute;
-  color: inherit;
-  inline-size: 100%;
   inset: 0;
-  outline: none;
+  inline-size: 100%;
   padding-block: 0;
   padding-inline: var(--v-field-padding-start);
+  color: inherit;
+  outline: none;
 }
 
-$heading-color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
-$body-color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
-
-// hide the input when your picker is inline
+// Oculta input en inline mode
 input[altinputclass="inlinePicker"] {
   display: none;
 }
@@ -213,7 +229,6 @@ input[altinputclass="inlinePicker"] {
   border-radius: 0.625rem;
   background-color: rgb(var(--v-theme-surface));
   inline-size: 16.875rem;
-
   @include mixins.elevation(6);
 
   .flatpickr-day:focus {
@@ -249,11 +264,10 @@ input[altinputclass="inlinePicker"] {
   }
 
   .flatpickr-day {
-    color: $heading-color;
+    color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
 
     &.today {
-      &,
-      &:hover {
+      &, &:hover {
         border-color: transparent;
         background-color: rgb(var(--v-theme-primary), 0.24);
         color: rgba(var(--v-theme-primary));
@@ -265,7 +279,6 @@ input[altinputclass="inlinePicker"] {
       border-color: rgb(var(--v-theme-primary));
       background: rgb(var(--v-theme-primary));
       color: rgb(var(--v-theme-on-primary)) !important;
-
       @include mixins.elevation(2);
     }
 
@@ -281,10 +294,7 @@ input[altinputclass="inlinePicker"] {
       background: rgba(var(--v-theme-primary), 0.24) !important;
     }
 
-    &.startRange {
-      @include mixins.elevation(2);
-    }
-
+    &.startRange,
     &.endRange {
       @include mixins.elevation(2);
     }
@@ -318,16 +328,13 @@ input[altinputclass="inlinePicker"] {
   }
 
   .flatpickr-weekday {
-    color: $heading-color;
+    color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
     font-size: 13px;
     font-weight: 400;
     line-height: 20px;
   }
 
-  &::after,
-  &::before {
-    display: none;
-  }
+  &::after, &::before { display: none; }
 
   .flatpickr-months {
     padding-block: 0.25rem;
@@ -341,8 +348,8 @@ input[altinputclass="inlinePicker"] {
       justify-content: center;
       padding: 0;
       block-size: 38px;
-      color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
       inline-size: 38px;
+      color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
 
       svg {
         block-size: 13px;
@@ -352,7 +359,7 @@ input[altinputclass="inlinePicker"] {
 
       &:hover i,
       &:hover svg {
-        fill: $body-color;
+        fill: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
       }
     }
   }
@@ -364,26 +371,40 @@ input[altinputclass="inlinePicker"] {
     span.cur-month {
       font-weight: 400;
     }
-  }
 
-  &.open {
-    // Open calendar above overlay
-    z-index: 2401;
-  }
+    .flatpickr-monthDropdown-months {
+      appearance: none;
+      block-size: 24px;
+    }
 
-  &.hasTime.open {
-    .flatpickr-time {
-      border: none;
-      block-size: auto;
+    .flatpickr-monthDropdown-months,
+    .numInputWrapper {
+      padding: 2px;
+      border-radius: 4px;
+      color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity));
+      font-size: 0.9375rem;
+      font-weight: 400;
+      transition: all 0.15s ease-out;
+
+      span { display: none; }
+
+      input.cur-year {
+        font-weight: 400 !important;
+      }
+
+      .flatpickr-monthDropdown-month {
+        background-color: rgb(var(--v-theme-surface));
+      }
     }
   }
 
-  &.hasTime .flatpickr-time:first-child {
-    border-color: transparent;
-  }
+  &.open { z-index: 2401; }
+
+  &.hasTime.open .flatpickr-time { border: none; block-size: auto; }
+  &.hasTime:first-child .flatpickr-time { border-color: transparent; }
 }
 
-// Time picker hover & focus bg color
+// Time picker hover & focus
 .flatpickr-time input:hover,
 .flatpickr-time .flatpickr-am-pm:hover,
 .flatpickr-time input:focus,
@@ -391,80 +412,57 @@ input[altinputclass="inlinePicker"] {
   background: transparent;
 }
 
-// Time picker
+// Time picker layout
 .flatpickr-time {
-  input.flatpickr-hour {
-    font-weight: 400;
-  }
-
+  input.flatpickr-hour { font-weight: 400; }
   .flatpickr-am-pm,
   .flatpickr-time-separator,
-  input {
-    color: $heading-color;
-  }
-
-  .numInputWrapper {
-    span {
-      &.arrowUp {
-        &::after {
-          border-block-end-color: rgb(var(--v-border-color));
-        }
-      }
-
-      &.arrowDown {
-        &::after {
-          border-block-start-color: rgb(var(--v-border-color));
-        }
-      }
-    }
-  }
+  input { color: rgba(var(--v-theme-on-background), var(--v-high-emphasis-opacity)); }
+  .numInputWrapper span.arrowUp::after { border-block-end-color: rgb(var(--v-border-color)); }
+  .numInputWrapper span.arrowDown::after { border-block-start-color: rgb(var(--v-border-color)); }
 }
 
-//  Added bg color for flatpickr input only as it has default readonly attribute
+// readonly inputs bg
 .flatpickr-input[readonly],
 .flatpickr-input ~ .form-control[readonly],
 .flatpickr-human-friendly[readonly] {
   background-color: inherit;
 }
 
-// week sections
-.flatpickr-weekdays {
-  block-size: auto;
-  margin-block: 0.375rem !important;
-}
+// Weekdays row spacing
+.flatpickr-weekdays { margin-block: 0.375rem !important; }
 
-// Month and year section
-.flatpickr-current-month {
-  .flatpickr-monthDropdown-months {
-    appearance: none;
-    block-size: 24px;
-  }
-
-  .flatpickr-monthDropdown-months,
-  .numInputWrapper {
-    padding: 2px;
-    border-radius: 4px;
-    color: $heading-color;
-    font-size: 0.9375rem;
-    font-weight: 400;
-    transition: all 0.15s ease-out;
-
-    span {
-      display: none;
-    }
-
-    input.cur-year {
-      font-weight: 400 !important;
-    }
-
-    .flatpickr-monthDropdown-month {
-      background-color: rgb(var(--v-theme-surface));
-    }
-  }
-}
-
+// Disabled day styling
 .flatpickr-day.flatpickr-disabled,
 .flatpickr-day.flatpickr-disabled:hover {
-  color: $body-color;
+  color: rgba(var(--v-theme-on-background), var(--v-medium-emphasis-opacity));
+}
+
+// ==== Botones salto año ====
+.flatpickr-prev-year,
+.flatpickr-next-year {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  color: rgba(var(--v-theme-on-surface), var(--v-medium-emphasis-opacity));
+}
+.flatpickr-prev-year:hover,
+.flatpickr-next-year:hover {
+  color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
+}
+
+// ==== Selector de año ====
+.flatpickr-year-dropdown {
+  margin: 0 4px;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: center;
+  cursor: pointer;
+  appearance: none;
 }
 </style>

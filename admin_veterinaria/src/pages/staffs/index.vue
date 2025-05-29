@@ -12,7 +12,7 @@
             key: 'imagen',
         },
         {
-            title: 'Nombre y Apellido',
+            title: 'Nombre y apellido',
             key: 'full_name',
         },
         {
@@ -36,7 +36,7 @@
             key: 'action',
         },
     ]
-
+    const roles = ref([]);
     const avatarText = value => {
         if (!value)
             return ''
@@ -61,8 +61,24 @@
         console.log(resp);
 
         data.value = resp.users.data;
+        roles.value = resp.roles;
     }
 
+    const addUser = (newUser) => {
+        data.value.unshift(newUser);
+    }
+    const editUser = (editUser) => {
+        let INDEX = data.value.findIndex((user) => user.id == editUser.id);
+        if(INDEX != -1){
+            data.value[INDEX] = editUser;
+        }
+    }
+    const deleteUser = (User) => {
+        let INDEX = data.value.findIndex((user) => user.id == User.id);
+        if(INDEX != -1){
+            data.value.splice(INDEX,1);
+        }
+    }
     const editItem = (item) => {
         isEditStaffDialogVisible.value = true;
         staff_selected.value = item;
@@ -88,7 +104,11 @@
             staff_selected_deleted.value = null;
         }
     })
-    
+    definePage({
+        meta: {
+            permisssion: 'list_staff'
+        },
+    })
 </script>
 
 <template>
@@ -130,8 +150,7 @@
                 <span class="text-h6">{{ item.id }}</span>
                 </template>
                 
-                
-                 <template #item.imagen="{ item }">
+                <template #item.imagen="{ item }">
                     <div class="d-flex align-center">
                         <VAvatar
                         size="32"
@@ -143,25 +162,27 @@
                             v-if="item.avatar"
                             :src="item.avatar"
                         />
-                         <span
-                            v-else
-                            class="text-sm"
-                        >{{ avatarText(item.full_name) }}</span>
-
-                        </VAvatar>         
-                       </div>
-                    </template>
-
-                    <template #item.document_full="{ item }">
+                            <span
+                                v-else
+                                class="text-sm"
+                                >{{ avatarText(item.full_name) }}</span>
+                           
+                        </VAvatar> 
+                        <!-- <div class="d-flex flex-column ms-3">
+                        <span class="d-block font-weight-medium text-high-emphasis text-truncate">{{ item.fullName }}</span>
+                        <small>{{ item.post }}</small>
+                        </div> -->
+                    </div>
+                </template>
+                <template #item.document_full="{ item }">
                     <div class="d-flex align-center">
-                          <div class="d-flex flex-column ms-3">
+                        <div class="d-flex flex-column ms-3">
                             <span class="d-block font-weight-medium text-high-emphasis text-truncate">{{ item.n_document }}</span>
                             <small>{{ item.type_document }}</small>
-                            </div>     
-                       </div>
-                    </template>
-
-                    
+                        </div>
+                    </div>
+                </template>
+                
                 <template #item.action="{ item }">
                     <div class="d-flex gap-1">
                       <IconBtn
@@ -180,7 +201,9 @@
                     </template>
             </VDataTable>
 
-            
+             <AddStaffDialog v-if="roles.length > 0" v-model:is-dialog-visible="isAddStaffDialogVisible" :roles="roles" @addUser="addUser" />
+            <EditStaffDialog v-if="staff_selected" :userSelected="staff_selected" :roles="roles" v-model:is-dialog-visible="isEditStaffDialogVisible"  @editUser="editUser" />
+            <DeleteStaffDialog v-if="staff_selected_deleted" :userSelected="staff_selected_deleted" @deleteUser="deleteUser" v-model:is-dialog-visible="isDeleteStaffDialogVisible" />
         </VCard>
 
 

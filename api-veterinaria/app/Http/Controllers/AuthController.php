@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function register() {
 
         Gate::authorize('create',User::class);
-        // $this->authorize('create',User::class);
+
         $validator = Validator::make(request()->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -96,6 +96,9 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
+        $permissions = auth('api')->user()->getAllPermissions()->map(function($permission) {
+            return $permission->name;
+        });
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
@@ -105,7 +108,8 @@ class AuthController extends Controller
                 "surname" => auth('api')->user()->surname,
                 "email" => auth('api')->user()->email,
                 "avatar" => auth('api')->user()->avatar ? env("APP_URL")."storage/".auth('api')->user()->avatar : null,
-                "role" => auth('api') -> user() -> role
+                "role" => auth('api')->user()->role,
+                "permissions" => $permissions,
             ]
         ]);
     }

@@ -12,7 +12,6 @@ function recursiveLayouts(route) {
   
   return setupLayouts([route])[0]
 }
-
 // http://localhost:5173/products
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,25 +26,19 @@ const router = createRouter({
       path: '/',
       name: 'index',
       redirect: to => {
-        // Verificar si el usuario está logueado
+        // TODO: Get type from backend
         const userData = localStorage.getItem('user');
-        const token = localStorage.getItem('token');
-        
-        // Si está logueado, ir al dashboard, sino al login
-        if (userData && token) {
-          return { name: 'dashboard' };
-        } else {
-          return { name: 'login', query: to.query };
-        }
+        if (userData)  
+          return { name: 'dashboard'};
+        return { name: 'login', query: to.query }
       },
     }],
     ...[...pages,...[
-       {
+      {
         path:'/roles-y-permisos',
         name: 'roles-y-permisos',
         component: () => import('@/pages/roles-permisos/index.vue'),
         meta: {
-          // Aquí puedes agregar metadatos específicos para esta ruta
         }
       }
     ]].map(route => recursiveLayouts(route)),

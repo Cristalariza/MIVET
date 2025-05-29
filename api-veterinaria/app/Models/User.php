@@ -6,22 +6,22 @@ namespace App\Models;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Veterinarie\VeterinarieScheduleDay;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-     use HasRoles;
-     use SoftDeletes;
-
+    use HasRoles;
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $fillable = [
         'name',
@@ -30,18 +30,18 @@ class User extends Authenticatable implements JWTSubject
         'surname',
         'role_id',
         'avatar',
-        'type_document',
-        'n_document',
-        'phone',
-        'designation',
-        'birthday',
-        'gender'
+        "type_document",
+        "n_document",
+        "phone",
+        "designation",
+        "birthday",
+        "gender",
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -60,6 +60,7 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
         ];
     }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -79,7 +80,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
     public function role(){
         return $this->belongsTo(Role::class,"role_id");
+    }
+
+    public function schedule_days(){
+        return $this->hasMany(VeterinarieScheduleDay::class,"veterinarie_id");
     }
 }

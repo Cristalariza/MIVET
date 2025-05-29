@@ -25,13 +25,13 @@ export default [
     children: [
       {
         title: 'Registrar',
-        to: 'second-page',
+        to: 'veterinarie-add',
         permission: 'register_veterinary',
         icon: { icon: 'ri-radio-button-line' },
       },
       {
         title: 'Listado',
-        to: 'second-page',
+        to: 'veterinarie-list',
         permission: 'list_veterinary',
         icon: { icon: 'ri-radio-button-line' },
       },

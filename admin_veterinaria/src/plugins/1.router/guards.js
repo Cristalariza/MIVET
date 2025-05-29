@@ -29,8 +29,6 @@ function isTokenExpired(token) {
   const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
   return decodedToken.exp < currentTime; // Retorna true si el token ha expirado
 }
-
-
 export const setupGuards = router => {
   // 👉 router.beforeEach
   // Docs: https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
@@ -52,12 +50,12 @@ export const setupGuards = router => {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       return {
-            name: 'login',
-            query: {
-                    ...to.query,
-                    to: to.fullPath !== '/' ? to.path : undefined,
-                  },
-            };
+          name: 'login',
+          query: {
+              ...to.query,
+              to: to.fullPath !== '/' ? to.path : undefined,
+          },
+      };
     }
     /*
           If user is logged in and is trying to access login like page, redirect to home
@@ -74,8 +72,19 @@ export const setupGuards = router => {
     if(to.meta.not_autenticacion == false){
       return true;
     }
+    let USER = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+    if(USER && USER.role.name != 'Super-Admin'){
+      // LA LISTA DE PERMISOS DEL USUARIO AUTENTICADO
+      let permissions = USER.permissions;
+      // VALIDAMOS SI EL PERMISO QUE TIENE LA URL A LA QUE VAMOS A INGRESAR ES PARTE DE LOS PERMISOS DEL USUARIO AUTENTICADO
+      if(permissions.includes(to.meta.permisssion) || to.meta.permisssion == "all"){
+        return true;
+      }else{
+        // CASO CONTRATIO NO TENGA LOS PERMISOS PARA INGRESAR A ESA VISTA ENTONCES LO MANDAREMOS A LA URL not-authorized
+        return { name: 'not-authorized' };
+      }
+    }
     if (!isLoggedIn && to.matched.length) {
-      debugger;
       /* eslint-disable indent */
             return isLoggedIn
                 ? { name: 'not-authorized' }

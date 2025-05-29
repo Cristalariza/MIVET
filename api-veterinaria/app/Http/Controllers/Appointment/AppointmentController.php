@@ -282,7 +282,6 @@ class AppointmentController extends Controller
             "message" => 200
         ]);
     }
-
     /**
      * Remove the specified resource from storage.
      */

@@ -7,6 +7,7 @@ use App\Http\Controllers\Pets\PetsController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Appointment\AppointmentController;
 use App\Http\Controllers\Veterinarie\VeterinarieController;
+use App\Http\Controllers\MedicalRecord\MedicalRecordController;
  
 Route::group([
     // 'middleware' => 'api',
@@ -37,5 +38,8 @@ Route::group([
     Route::post("appointments/filter-availability",[AppointmentController::class,"filter"]);
     Route::post("appointments/index",[AppointmentController::class,"index"]);
     Route::resource("appointments",AppointmentController::class);
+
+    Route::get("/medical-records/calendar",[MedicalRecordController::class,"calendar"]);
+    Route::put("/medical-records/update_aux/{id}",[MedicalRecordController::class,"update_aux"]);
 });
 Route::get("appointment-excel",[AppointmentController::class,"downloadExcel"]);

@@ -177,6 +177,13 @@
                                 @click="reset()"
                             >
                             </VBtn>
+                            <VBtn
+                                color="success"
+                                class="mx-1"
+                                prepend-icon="ri-file-excel-2-line"
+                                @click="downloadExcel()"
+                            >
+                            </VBtn>
                         </div>
                     </VCol>
                     <VCol cols="2">
@@ -338,7 +345,7 @@
                                 </VChip>   
                             </td>
                             <td>
-                                ${{ item.amount }} COP
+                                {{ item.amount }} PEN
                             </td>
                             <td>
                                 <div class="d-flex gap-1">

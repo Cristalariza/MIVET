@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class VeterinarieScheduleHour extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        "hour_start",
+        "hour_end",
+        "hour",
+    ];
 }

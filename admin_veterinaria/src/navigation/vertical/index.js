@@ -78,7 +78,7 @@ export default [
     title: 'Calendario',
     icon: { icon: 'ri-calendar-line' },
     permission: 'calendar',
-    to: 'second-page',
+    to: 'medical-record-calendar',
   },
   {
     title: 'Pagos',

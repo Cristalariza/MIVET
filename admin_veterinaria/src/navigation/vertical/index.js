@@ -43,13 +43,13 @@ export default [
     children: [
       {
         title: 'Registrar',
-        to: 'second-page',
+        to: 'pet-add',
         permission: 'register_pet',
         icon: { icon: 'ri-radio-button-line' },
       },
       {
         title: 'Listado',
-        to: 'second-page',
+        to: 'pet-list',
         permission: 'list_pet',
         icon: { icon: 'ri-radio-button-line' },
       },

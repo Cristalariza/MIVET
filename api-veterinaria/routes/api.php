@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Rol\RoleController;
+use App\Http\Controllers\Pets\PetsController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Veterinarie\VeterinarieController;
  
@@ -18,7 +19,7 @@ Route::group([
     Route::post('/me', [AuthController::class, 'me'])->name('me');//->middleware('auth:api')
 });
 Route::group([
-    // 'middleware' => ['auth:api']
+    'middleware' => ['auth:api']
 ],function($router) {
     Route::resource("role",RoleController::class);
     Route::post("staffs/{id}",[StaffController::class,"update"]);
@@ -27,4 +28,7 @@ Route::group([
     Route::get("veterinaries/config",[VeterinarieController::class,"config"]);
     Route::post("veterinaries/{id}",[VeterinarieController::class,"update"]);
     Route::resource("veterinaries",VeterinarieController::class);
+
+    Route::post("pets/{id}",[PetsController::class,"update"]);
+    Route::resource("pets",PetsController::class);
 });

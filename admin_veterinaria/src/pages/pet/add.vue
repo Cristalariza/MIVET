@@ -1,5 +1,4 @@
 <script setup>
-
     const warning = ref(null);
     const success = ref(null);
     const error_exists = ref(null);
@@ -189,12 +188,12 @@
             <VCardText class="pa-5">
                 <div class="mb-1">
                 <h4 class="text-h4 text-center mb-1">
-                    Add Pet
+                    Add Pet 🐶
                 </h4>
                 </div>
             </VCardText>
 
-            <VCard title="Mascota:" class="pa-4">
+            <VCard title="🐕‍🦺 Mascota:" class="pa-4">
                 <VRow>
                     <VCol cols="6">
                         <VTextField
@@ -222,11 +221,26 @@
                         />
                     </VCol>
                     <VCol cols="3">
-                        <AppDateTimePicker
+                        <!-- <AppDateTimePicker
                             v-model="form.dirth_date"
                             label="Fecha de nacimiento"
                             placeholder="Select date"
-                        />
+                        /> -->
+                        <label for="">Fecha de nacimiento</label>
+                        <div class="app-picker-field">
+                            <div class="v-input v-input--horizontal v-input--center-affix v-input--density-comfortable v-locale--is-ltr position-relative v-text-field">
+                                <div class="v-input__control">
+                                    <div class="v-field v-field--center-affix v-field--variant-outlined v-theme--light v-locale--is-ltr">
+                                        <div class="v-field__field">
+                                            <div class="v-field__input">
+                                                <input type="date" class="flat-picker-custom-style flatpickr-input" v-model="form.dirth_date" style="opacity: 1;"  id="">
+                                            </div>
+                                        </div>
+                                        <div class="v-field__outline text-primary"><div class="v-field__outline__start"></div><div class="v-field__outline__notch"><label class="v-label v-field-			label v-field-label--floating" aria-hidden="true" for="input-8" style="">Nombre</label></div><div class="v-field__outline__end"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </VCol>
                     <VCol cols="3">
                         <VRadioGroup
@@ -292,7 +306,7 @@
             <strong>{{ success }}</strong>
             </VAlert>
 
-            <VCard title="Responsable:" class="my-2 pa-4">
+            <VCard title="🧔 Responsable:" class="my-2 pa-4">
                 <VRow>
                     <!-- 1era fila  -->
                     <VCol cols="6">

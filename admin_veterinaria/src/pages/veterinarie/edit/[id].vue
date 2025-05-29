@@ -28,7 +28,7 @@ const error_exists = ref(null);
 const FILE_AVATAR = ref(null);
 const IMAGEN_PREVIZUALIZA = ref(null);
 const roles = ref([]);
-const days = ref(['Lunes','Martes','Miercoles','Jueves','Viernes']);
+const days = ref(['Lunes','Martes','Miércoles','Jueves','Viernes']);
 const hour_days = ref([]);
 const selected_segment_time = ref([]);
 const schedule_hour_veterinarie = ref([]);
@@ -265,7 +265,7 @@ definePage({
             <VCardText class="pa-5">
                 <div class="mb-6">
                 <h4 class="text-h4 text-center mb-2">
-                    Edit Veterinarie : {{ route.params.id }}
+                    🧑‍⚕️ Edit Veterinarie : {{ route.params.id }}
                 </h4>
                 </div>
     

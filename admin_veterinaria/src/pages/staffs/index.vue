@@ -113,7 +113,7 @@
 
 <template>
     <div>
-        <VCard title="Staffs">
+        <VCard title="🧑‍🏭 Staffs">
             <VCardText class="d-flex flex-wrap gap-4">
                 <div class="d-flex align-center">
                 <!-- 👉 Search  -->

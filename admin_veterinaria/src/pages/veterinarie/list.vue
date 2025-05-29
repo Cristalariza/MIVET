@@ -93,7 +93,7 @@
 
 <template>
     <div>
-        <VCard title="Staffs">
+        <VCard title="🧑‍⚕️ Veterinarios">
             <VCardText class="d-flex flex-wrap gap-4">
                 <div class="d-flex align-center">
                 <!-- 👉 Search  -->

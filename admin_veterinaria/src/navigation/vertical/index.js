@@ -62,15 +62,15 @@ export default [
     children: [
       {
         title: 'Registrar',
-        to: 'second-page',
+        to: 'appointment-add',
         permission: 'register_appointment',
-        icon: { icon: 'ri-computer-line' },
+        icon: { icon: 'ri-radio-button-line' },
       },
       {
         title: 'Listado',
-        to: 'second-page',
+        to: 'appointment-list',
         permission: 'list_appointment',
-        icon: { icon: 'ri-bar-chart-line' },
+        icon: { icon: 'ri-radio-button-line' },
       },
     ],
   },

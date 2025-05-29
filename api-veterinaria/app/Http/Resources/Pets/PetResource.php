@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Pets;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class PetResource extends JsonResource
             'name' => $this->resource->name,
             'specie' => $this->resource->specie,
             'breed' => $this->resource->breed,
-            'dirth_date' => $this->resource->dirth_date,
+            'dirth_date' => $this->resource->dirth_date ? Carbon::parse($this->resource->dirth_date)->format("Y-m-d") : null,
             'gender' => $this->resource->gender,
             'color' => $this->resource->color,
             'weight' => $this->resource->weight,

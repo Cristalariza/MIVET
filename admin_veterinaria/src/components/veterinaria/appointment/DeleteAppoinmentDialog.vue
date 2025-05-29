@@ -5,13 +5,13 @@ const props = defineProps({
     type: Boolean,
     required: true,
   },
-  userSelected: {
+  appointmentSelected: {
     type: Object,
     required: true,
   }
 })
 
-const emit = defineEmits(['update:isDialogVisible','deleteUser'])
+const emit = defineEmits(['update:isDialogVisible','deleteAppointment'])
 
 const dialogVisibleUpdate = val => {
   emit('update:isDialogVisible', val)
@@ -20,11 +20,11 @@ const dialogVisibleUpdate = val => {
 const warning = ref(null);
 const success = ref(null);
 const error_exists = ref(null);
-const user_selected = ref(null);
+const appointment_selected = ref(null);
 
 const deleted = async() => {
   try {
-    const resp =  await $api('/veterinaries/'+user_selected.value.id,{
+    const resp =  await $api('/appointments/'+appointment_selected.value.id,{
         method: 'DELETE',
         onResponseError({response}){
           console.log(response);
@@ -32,9 +32,13 @@ const deleted = async() => {
         }
     })
     console.log(resp);
-    success.value = "El usuario se ha eliminado correctamente";
-    emit('deleteUser', user_selected.value)
-    emit('update:isDialogVisible', false)
+    if(resp.message == 403){
+        error_exists.value = "La cita medica no se puede eliminar porque ya ha sido atendida";
+    }else{
+        success.value = "La cita medica se ha eliminado correctamente";
+        emit('deleteAppointment', appointment_selected.value)
+        emit('update:isDialogVisible', false)
+    }
   } catch (error) {
     console.log(error);
     error_exists.value = error;
@@ -42,8 +46,8 @@ const deleted = async() => {
 }
 
 onMounted(() => {
-  user_selected.value = props.userSelected;
-  console.log(user_selected.value);
+  appointment_selected.value = props.appointmentSelected;
+  console.log(appointment_selected.value);
 })
 </script>
 
@@ -63,16 +67,16 @@ onMounted(() => {
 
       <VCardText class="pa-5">
         <div class="mb-6">
-          <h4 class="text-h4 text-center mb-2" v-if="user_selected">
-            Deleted Veterinarie : {{ user_selected.id }}
+          <h4 class="text-h4 text-center mb-2" v-if="appointment_selected">
+            Deleted Appointment : {{ appointment_selected.id }}
           </h4>
           <!-- <p class="text-sm-body-1 text-center">
             Supported payment methods
           </p> -->
         </div>
-        <p v-if="user_selected">¿Estas seguro de eliminar el VETERINARI@ "{{ user_selected.full_name }}"?</p>
+        <p v-if="appointment_selected">¿Estas seguro de eliminar esta cita medica de la mascota "{{ appointment_selected.pet.name }}"?</p>
         <VAlert type="error" class="mt-3" v-if="error_exists">
-          <strong>En el servidor hubo un error al guardar</strong>
+          <strong>{{ error_exists }}</strong>
         </VAlert>
         <VAlert type="warning" class="mt-3" v-if="success">
           <strong>{{ success }}</strong>

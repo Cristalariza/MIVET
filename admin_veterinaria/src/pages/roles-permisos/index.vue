@@ -79,7 +79,7 @@
 
 <template>
     <div>
-        <VCard title="Roles y Permisos">
+        <VCard title="🔐 Roles y Permisos">
             <VCardText class="d-flex flex-wrap gap-4">
                 <div class="d-flex align-center">
                 <!-- 👉 Search  -->

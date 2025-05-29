@@ -73,7 +73,7 @@
 </script>
 <template>
     <div>
-        <VCard title="Pets">
+        <VCard title="🐶 Pets">
             <VCardText class="d-flex flex-wrap gap-4">
                 <div class="d-flex align-center">
                 <!-- 👉 Search  -->

@@ -12,7 +12,7 @@ export const useCalendarStore = defineStore('calendar', {
       },
       {
         color: 'warning',
-        label: 'Vaccinations',
+        label: 'Vaccination',
       },
       {
         color: 'success',
@@ -23,7 +23,7 @@ export const useCalendarStore = defineStore('calendar', {
         label: 'ETC',
       },
     ],
-    selectedCalendars: ['Personal', 'Appointment', 'Vaccinations', 'Surgeries', 'ETC'],
+    selectedCalendars: ['Personal', 'Appointment', 'Vaccination', 'Surgeries', 'ETC'],
   }),
   actions: {
     async fetchEvents() {

@@ -5,28 +5,28 @@
     const searchVets = ref(null);
     const specie = ref(null);
     const species = ref(['Perro','Gato','Hámster','Loro','Tortuga','Vaca','Caballo','Cuy','Toro']);
-    const appointments = ref([]);
+    const vaccinations = ref([]);
     const currentPage = ref(1);
     const totalPage = ref(1);
-    const appointment_selected_deleted = ref(null);
-    const isDeleteAppointmentDialogVisible = ref(false);
+    const vaccination_selected_deleted = ref(null);
+    const isDeleteVaccinationDialogVisible = ref(false);
 
     const dateRange = ref(null);
     const type_date = ref(1);
     const state_pay = ref(null);
-    const state_appointment = ref(null);
+    const state_vaccination = ref(null);
     const list = async() => {
         let data = {
             type_date: type_date.value,
             start_date: dateRange.value ? dateRange.value.split("to")[0] : null,
             end_date: dateRange.value ? dateRange.value.split("to")[1] : null,
             state_pay: state_pay.value,
-            state: state_appointment.value,
+            state: state_vaccination.value,
             specie: specie.value,
             search_pets: searchPets.value,
             search_vets: searchVets.value,
         }
-        const resp =  await $api('/appointments/index?page='+currentPage.value
+        const resp =  await $api('/vaccinations/index?page='+currentPage.value
         ,{
             method: 'POST',
             body:data,
@@ -36,7 +36,7 @@
         })
         console.log(resp);
         totalPage.value = resp.total_page;
-        appointments.value = resp.appointments.data;
+        vaccinations.value = resp.vaccinations.data;
     }
     const downloadExcel = () => {
         let LINK = "";
@@ -48,8 +48,8 @@
         if(state_pay.value){
             LINK += "&state_pay="+state_pay.value;
         }
-        if(state_appointment.value){
-            LINK += "&state="+state_appointment.value;
+        if(state_vaccination.value){
+            LINK += "&state="+state_vaccination.value;
         }
         if(specie.value){
             LINK += "&specie="+specie.value;
@@ -60,24 +60,24 @@
         if(searchVets.value){
             LINK += "&search_vets="+searchVets.value;
         }
-        window.open(import.meta.env.VITE_API_BASE_URL+"/appointment-excel?k=1"+LINK,"_blank");
+        window.open(import.meta.env.VITE_API_BASE_URL+"/vaccination-excel?k=1"+LINK,"_blank");
     }
     const editItem = (item) => {
         router.push({
-            name: 'appointment-edit-id',
+            name: 'vaccination-edit-id',
             params: {
                 id: item.id
             }
         })
     }
     const deleteItem = (item) => {
-        appointment_selected_deleted.value = item;
-        isDeleteAppointmentDialogVisible.value = true;
+        vaccination_selected_deleted.value = item;
+        isDeleteVaccinationDialogVisible.value = true;
     }
-    const deleteAppointment = (item) => {
-        let INDEX = appointments.value.findIndex((appointment) => appointment.id == item.id);
+    const deleteVaccination = (item) => {
+        let INDEX = vaccinations.value.findIndex((vaccination) => vaccination.id == item.id);
         if(INDEX != -1){
-            appointments.value.splice(INDEX,1);
+            vaccinations.value.splice(INDEX,1);
         }
     }
     const reset = () => {
@@ -86,7 +86,7 @@
         specie.value = null;
         dateRange.value = null;
         state_pay.value = null;
-        state_appointment.value = null;
+        state_vaccination.value = null;
         type_date.value = 1;
         currentPage.value = 1;
         list();
@@ -102,9 +102,9 @@
         console.log(val);
         list();
     })
-    watch(isDeleteAppointmentDialogVisible,(val) => {
+    watch(isDeleteVaccinationDialogVisible,(val) => {
         if(val == false){
-            appointment_selected_deleted.value = null;
+            vaccination_selected_deleted.value = null;
         }
     })
     onMounted(() => {
@@ -112,20 +112,20 @@
     })
     definePage({
         meta: {
-            permisssion: 'list_appointment'
+            permisssion: 'list_vaccionation'
         },
     })
 </script>
 <template>
     <div>
-        <VCard title="📆 Appointments">
+        <VCard title="🐄 Vaccinations">
             <VCardText class="d-flex flex-wrap gap-4">
                 <VRow>
                     <VCol cols="2">
                         <VSelect
                             :items="[
                                 {
-                                    name: 'Fecha de la cita',
+                                    name: 'Fecha de la vacuna',
                                     id: 1,
                                 },
                                 {
@@ -190,9 +190,9 @@
                         <VBtn
                             color="primary"
                             prepend-icon="ri-add-line"
-                            @click="router.push({name: 'appointment-add'})"
+                            @click="router.push({name: 'vaccination-add'})"
                         >
-                            Add Appointment
+                            Add Vaccination
                         </VBtn>
                     </VCol>
 
@@ -212,8 +212,8 @@
                                     id: 3,
                                 }
                             ]"
-                            v-model="state_appointment"
-                            label="Estado de la cita"
+                            v-model="state_vaccination"
+                            label="Estado de la vacuna"
                             item-title="name"
                             item-value="id"
                             placeholder="Select Estado"
@@ -278,7 +278,7 @@
                                 Especie
                             </th>
                             <th class="text-uppercase">
-                                Fecha de cita
+                                Fecha de la vacuna
                             </th>
                             <th class="text-uppercase">
                                 Veterinario
@@ -297,7 +297,7 @@
     
                     <tbody>
                         <tr
-                            v-for="item in appointments"
+                            v-for="item in vaccinations"
                             :key="item.id"
                         >
                             <td>
@@ -328,7 +328,7 @@
                                 {{ item.pet.specie }}
                             </td>
                             <td>
-                                {{ item.date_appointment }}
+                                {{ item.vaccination_date }}
                             </td>
                             <td>
                                 {{ item.veterinarie.full_name }}
@@ -373,7 +373,7 @@
                 />
             </VCardText>
 
-            <DeleteAppoinmentDialog v-if="appointment_selected_deleted" :appointmentSelected="appointment_selected_deleted" @deleteAppointment="deleteAppointment" v-model:is-dialog-visible="isDeleteAppointmentDialogVisible" />
+            <DeleteVaccinationDialog v-if="vaccination_selected_deleted" :vaccinationSelected="vaccination_selected_deleted" @deleteVaccination="deleteVaccination" v-model:is-dialog-visible="isDeleteVaccinationDialogVisible" />
         </VCard>
     </div>
 </template>

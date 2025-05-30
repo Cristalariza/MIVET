@@ -1,28 +1,21 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Vaccination;
 
 use Carbon\Carbon;
-use App\Models\Pets\Pet;
-use App\Models\Appointment\Appointment;
 use App\Models\Vaccination\Vaccination;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class MedicalRecord extends Model
+class VaccinationPayment extends Model
 {
     use HasFactory;
     use SoftDeletes;
     protected $fillable = [
-        "veterinarie_id",
-        "pet_id",
-        "event_type",
-        "event_date",
-        "appointment_id",
         "vaccination_id",
-        "surgerie_id",
-        "notes",
+        "method_payment",
+        "amount",
     ];
 
     public function setCreatedAtAttribute($value)
@@ -35,18 +28,6 @@ class MedicalRecord extends Model
     {
     	date_default_timezone_set("America/Lima");
         $this->attributes["updated_at"]= Carbon::now();
-    }
-
-    public function veterinarie(){
-        return $this->belongsTo(User::class,"veterinarie_id");
-    }
-
-    public function pet(){
-        return $this->belongsTo(Pet::class,"pet_id");
-    }
-
-    public function appointment(){
-        return $this->belongsTo(Appointment::class,"appointment_id");
     }
 
     public function vaccination(){

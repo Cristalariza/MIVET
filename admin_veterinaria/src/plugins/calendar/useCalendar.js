@@ -164,7 +164,7 @@ export const useCalendar = (event, isEventHandlerSidebarActive, isLeftSidebarOpe
     Appointment: 'primary',
     Surgeries: 'success',
     Personal: 'error',
-    Vaccinations: 'warning',
+    Vaccination: 'warning',
     ETC: 'info',
   }
 

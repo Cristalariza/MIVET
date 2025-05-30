@@ -21,7 +21,11 @@ const { isLeftSidebarOpen } = useResponsiveLeftSidebar()
 
 // 👉 useCalendar
 const { refCalendar, calendarOptions, addEvent, updateEvent, removeEvent, jumpToDate } = useCalendar(event, isEventHandlerSidebarActive, isLeftSidebarOpen)
-
+definePage({
+    meta: {
+        permisssion: 'calendar'
+    },
+})
 </script>
 <template>
   <div>

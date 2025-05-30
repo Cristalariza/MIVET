@@ -17,6 +17,7 @@ use App\Models\Veterinarie\VeterinarieScheduleDay;
 use App\Models\Veterinarie\VeterinarieScheduleJoin;
 use App\Http\Resources\Appointment\AppointmentResource;
 use App\Http\Resources\Appointment\AppointmentCollection;
+use App\Models\Vaccination\Vaccination;
 
 class AppointmentController extends Controller
 {
@@ -44,6 +45,9 @@ class AppointmentController extends Controller
 
     public function filter(Request $request) {
         $date_appointment = $request->date_appointment;
+        if(!$date_appointment){
+            $date_appointment = $request->vaccination_date;
+        }
         $hour = $request->hour;
 
         // 1.-Obtener el nombre del dia de la fecha que hemos seleccionado
@@ -74,6 +78,14 @@ class AppointmentController extends Controller
                                      ->whereHas("schedules",function ($q) use($segment_time_join){
                                         $q->where("veterinarie_schedule_hour_id",$segment_time_join->veterinarie_schedule_hour_id);
                                      })->first();
+                if(!$check){
+                    $check = Vaccination::whereDate("vaccination_date",$date_appointment)
+                                            ->where("state","<>",2)
+                                        ->where("veterinarie_id",$veterinarie_day->veterinarie_id)
+                                        ->whereHas("schedules",function ($q) use($segment_time_join){
+                                            $q->where("veterinarie_schedule_hour_id",$segment_time_join->veterinarie_schedule_hour_id);
+                                        })->first();
+                }
                 $segment_time_formats->push([
                     "id" => $segment_time_join->id,
                     "veterinarie_schedule_day_id" => $segment_time_join->veterinarie_schedule_day_id,

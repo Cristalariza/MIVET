@@ -81,46 +81,46 @@ export default [
     to: 'medical-record-calendar',
   },
   {
-    title: 'Pagos',
-    icon: { icon: 'ri-coins-line' },
-    permission: 'show_payment',
-    to: 'second-page',
-  },
-  {
     title: 'Vacunas',
     icon: { icon: 'ri-syringe-line' },
     children: [
       {
         title: 'Registrar',
-        to: 'second-page',
+        to: 'vaccination-add',
         permission: 'register_vaccionation',
-        icon: { icon: 'ri-computer-line' },
+        icon: { icon: 'ri-radio-button-line' },
       },
       {
         title: 'Listado',
-        to: 'second-page',
+        to: 'vaccination-list',
         permission: 'list_vaccionation',
-        icon: { icon: 'ri-bar-chart-line' },
+        icon: { icon: 'ri-radio-button-line' },
       },
     ],
   },
   {
-    title: 'Procedimientos quirúrgicos',
+    title: 'Cirugías',
     icon: { icon: 'ri-microscope-line' },
     children: [
       {
         title: 'Registrar',
-        to: 'second-page',
+        to: 'surgerie-add',
         permission: 'register_surgeries',
-        icon: { icon: 'ri-computer-line' },
+        icon: { icon: 'ri-radio-button-line' },
       },
       {
         title: 'Listado',
-        to: 'second-page',
+        to: 'surgerie-list',
         permission: 'list_surgeries',
-        icon: { icon: 'ri-bar-chart-line' },
+        icon: { icon: 'ri-radio-button-line' },
       },
     ],
+  },
+  {
+    title: 'Pagos',
+    icon: { icon: 'ri-coins-line' },
+    permission: 'show_payment',
+    to: 'second-page',
   },
   {
     title: 'Historial Medico',

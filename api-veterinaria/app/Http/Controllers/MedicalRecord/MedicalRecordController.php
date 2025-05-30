@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MedicalRecord;
 
 use Illuminate\Http\Request;
+use App\Models\MedicalRecord;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment\Appointment;
 use App\Http\Resources\MedicalRecord\Calendar\MedicalRecordCalendarResource;
@@ -20,24 +21,30 @@ class MedicalRecordController extends Controller
 
     public function calendar(Request $request){
 
-        $appointments = Appointment::orderBy("id","desc")->get();
+        $medical_records = MedicalRecord::orderBy("id","desc")->get();
 
         return response()->json([
-            "calendars" => MedicalRecordCalendarCollection::make($appointments),
+            "calendars" => MedicalRecordCalendarCollection::make($medical_records),
         ]);
     }
     public function update_aux(Request $request, string $id)
     {
-        $appointment = Appointment::findOrFail($id);
-        $appointment->update([
-            "state" => $request->state,
-        ]);
-        error_log($request->notes);
-        $appointment->medical_record->update([
+        $medical_record = MedicalRecord::findOrFail($id);
+        if($medical_record->appointment_id){
+            $medical_record->appointment->update([
+                "state" => $request->state,
+            ]);
+        }
+        if($medical_record->vaccination_id){
+            $medical_record->vaccination->update([
+                "state" => $request->state,
+            ]);
+        }
+        $medical_record->update([
             "notes" => $request->notes,
         ]);
         return response()->json([
-            "event" => MedicalRecordCalendarResource::make($appointment),
+            "event" => MedicalRecordCalendarResource::make($medical_record),
         ]);
     }
     /**

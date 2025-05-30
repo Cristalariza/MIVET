@@ -44,6 +44,8 @@ declare module 'vue' {
     DeletePetDialog: typeof import('./src/components/veterinaria/pet/DeletePetDialog.vue')['default']
     DeleteRoleDialog: typeof import('./src/components/veterinaria/role/DeleteRoleDialog.vue')['default']
     DeleteStaffDialog: typeof import('./src/components/veterinaria/staff/DeleteStaffDialog.vue')['default']
+    DeleteSurgerieDialog: typeof import('./src/components/veterinaria/surgerie/DeleteSurgerieDialog.vue')['default']
+    DeleteVaccinationDialog: typeof import('./src/components/veterinaria/vaccination/DeleteVaccinationDialog.vue')['default']
     DeleteVeterinarioDialog: typeof import('./src/components/veterinaria/veterinario/DeleteVeterinarioDialog.vue')['default']
     DialogCloseBtn: typeof import('./src/@core/components/DialogCloseBtn.vue')['default']
     EditRoleDialog: typeof import('./src/components/veterinaria/role/EditRoleDialog.vue')['default']

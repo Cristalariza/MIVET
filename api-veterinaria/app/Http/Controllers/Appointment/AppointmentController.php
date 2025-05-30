@@ -6,18 +6,19 @@ use Carbon\Carbon;
 use App\Models\Pets\Pet;
 use Illuminate\Http\Request;
 use App\Models\MedicalRecord;
+use App\Models\Surgerie\Surgerie;
 use Illuminate\Support\Facades\DB;
 use App\Exports\DownloadAppointment;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Appointment\Appointment;
+use App\Models\Vaccination\Vaccination;
 use App\Models\Appointment\AppointmentPayment;
 use App\Models\Appointment\AppointmentSchedule;
 use App\Models\Veterinarie\VeterinarieScheduleDay;
 use App\Models\Veterinarie\VeterinarieScheduleJoin;
 use App\Http\Resources\Appointment\AppointmentResource;
 use App\Http\Resources\Appointment\AppointmentCollection;
-use App\Models\Vaccination\Vaccination;
 
 class AppointmentController extends Controller
 {
@@ -47,6 +48,9 @@ class AppointmentController extends Controller
         $date_appointment = $request->date_appointment;
         if(!$date_appointment){
             $date_appointment = $request->vaccination_date;
+            if(!$date_appointment){
+                $date_appointment = $request->surgerie_date;
+            }
         }
         $hour = $request->hour;
 
@@ -85,6 +89,15 @@ class AppointmentController extends Controller
                                         ->whereHas("schedules",function ($q) use($segment_time_join){
                                             $q->where("veterinarie_schedule_hour_id",$segment_time_join->veterinarie_schedule_hour_id);
                                         })->first();
+
+                    if(!$check){
+                        $check = Surgerie::whereDate("surgerie_date",$date_appointment)
+                                            ->where("state","<>",2)
+                                        ->where("veterinarie_id",$veterinarie_day->veterinarie_id)
+                                        ->whereHas("schedules",function ($q) use($segment_time_join){
+                                            $q->where("veterinarie_schedule_hour_id",$segment_time_join->veterinarie_schedule_hour_id);
+                                        })->first();
+                    }                  
                 }
                 $segment_time_formats->push([
                     "id" => $segment_time_join->id,

@@ -25,6 +25,10 @@ class MedicalRecordCalendarResource extends JsonResource
             $resource = $this->resource->vaccination;
             $calendar = 'Vaccination';
         }
+        if($this->resource->surgerie_id){
+            $resource = $this->resource->surgerie;
+            $calendar = 'Surgeries';
+        }
         $hour_start = $resource->schedules->first()->schedule_hour->hour_start;
         $hour_end = $resource->schedules->first()->schedule_hour->hour_end;
 
@@ -37,7 +41,7 @@ class MedicalRecordCalendarResource extends JsonResource
             "url" => '',
             "extendedProps" => [
                 "calendar" => $calendar,
-                "description" => $resource->reason,
+                "description" => $calendar == 'Surgeries' ? $resource->medical_notes : $resource->reason,
                 "notes" => $this->resource->notes,
                 "day" => $resource->day,
                 "state" => $resource->state,

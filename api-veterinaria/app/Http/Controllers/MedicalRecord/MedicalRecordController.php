@@ -40,6 +40,12 @@ class MedicalRecordController extends Controller
                 "state" => $request->state,
             ]);
         }
+        if($medical_record->surgerie_id){
+            $medical_record->surgerie->update([
+                "state" => $request->state,
+                "outcome" => $request->notes,
+            ]);
+        }
         $medical_record->update([
             "notes" => $request->notes,
         ]);

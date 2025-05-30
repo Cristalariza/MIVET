@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\Pets\Pet;
+use App\Models\Surgerie\Surgerie;
 use App\Models\Appointment\Appointment;
 use App\Models\Vaccination\Vaccination;
 use Illuminate\Database\Eloquent\Model;
@@ -51,5 +52,9 @@ class MedicalRecord extends Model
 
     public function vaccination(){
         return $this->belongsTo(Vaccination::class,"vaccination_id");
+    }
+
+    public function surgerie(){
+        return $this->belongsTo(Surgerie::class,"surgerie_id");
     }
 }

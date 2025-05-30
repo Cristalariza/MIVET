@@ -39,6 +39,7 @@ const router = createRouter({
         name: 'roles-y-permisos',
         component: () => import('@/pages/roles-permisos/index.vue'),
         meta: {
+           permisssion: 'list_rol',
         }
       }
     ]].map(route => recursiveLayouts(route)),

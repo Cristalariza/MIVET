@@ -1,4 +1,6 @@
 <script setup>
+import { isPermission } from '@/utils/constants';
+
 
     const router = useRouter()
     const searchQuery = ref(null);
@@ -119,6 +121,7 @@
                 <div class="d-flex gap-x-4 align-center">
                     <VBtn
                         color="primary"
+                        v-if="isPermission('register_pet')"
                         prepend-icon="ri-add-line"
                         @click="router.push({name: 'pet-add'})"
                     >
@@ -203,12 +206,14 @@
                                 <div class="d-flex gap-1">
                                     <IconBtn
                                         size="small"
+                                        v-if="isPermission('edit_pet')"
                                         @click="editItem(item)"
                                     >
                                         <VIcon icon="ri-pencil-line" />
                                     </IconBtn>
                                     <IconBtn
                                         size="small"
+                                        v-if="isPermission('delete_pet')"
                                         @click="deleteItem(item)"
                                     >
                                         <VIcon icon="ri-delete-bin-line" />

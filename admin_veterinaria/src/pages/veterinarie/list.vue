@@ -1,4 +1,6 @@
 <script setup>
+import { isPermission } from '@/utils/constants';
+
     // import data from '@/views/js/datatable'
     const data = ref([]);
     const router = useRouter()
@@ -113,6 +115,7 @@
                     <VBtn
                         color="primary"
                         prepend-icon="ri-add-line"
+                        v-if="isPermission('register_veterinary')"
                         @click="router.push({name: 'veterinarie-add'})"
                     >
                         Add Veterinarie
@@ -167,12 +170,14 @@
                     <div class="d-flex gap-1">
                       <IconBtn
                         size="small"
+                        v-if="isPermission('edit_veterinary')"
                         @click="editItem(item)"
                       >
                         <VIcon icon="ri-pencil-line" />
                       </IconBtn>
                       <IconBtn
                         size="small"
+                        v-if="isPermission('delete_veterinary')"
                         @click="deleteItem(item)"
                       >
                         <VIcon icon="ri-delete-bin-line" />

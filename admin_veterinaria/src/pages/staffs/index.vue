@@ -1,4 +1,6 @@
 <script setup>
+import { isPermission } from '@/utils/constants';
+
     // import data from '@/views/js/datatable'
     const data = ref([]);
 
@@ -132,6 +134,7 @@
                 <div class="d-flex gap-x-4 align-center">
                     <VBtn
                         color="primary"
+                         v-if="isPermission('register_staff')"
                         prepend-icon="ri-add-line"
                         @click="isAddStaffDialogVisible = !isAddStaffDialogVisible"
                     >
@@ -187,12 +190,14 @@
                     <div class="d-flex gap-1">
                       <IconBtn
                         size="small"
+                        v-if="isPermission('edit_staff')"
                         @click="editItem(item)"
                       >
                         <VIcon icon="ri-pencil-line" />
                       </IconBtn>
                       <IconBtn
                         size="small"
+                         v-if="isPermission('delete_staff')"
                         @click="deleteItem(item)"
                       >
                         <VIcon icon="ri-delete-bin-line" />

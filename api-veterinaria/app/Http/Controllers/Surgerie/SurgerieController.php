@@ -8,6 +8,7 @@ use App\Models\MedicalRecord;
 use App\Exports\DownloadSurgerie;
 use App\Models\Surgerie\Surgerie;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Surgerie\SurgeriePayment;
 use App\Models\Surgerie\SurgerieSchedule;
@@ -22,6 +23,7 @@ class SurgerieController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize("viewAny",Surgerie::class);
         $type_date = $request->type_date;
         $start_date = $request->start_date;
         $end_date = $request->end_date;
@@ -30,8 +32,8 @@ class SurgerieController extends Controller
         $specie = $request->specie;
         $search_pets = $request->search_pets;
         $search_vets = $request->search_vets;
-
-        $surgeries = Surgerie::filterMultiple($type_date,$start_date,$end_date,$state_pay,$state,$specie,$search_pets,$search_vets)->orderBy("id","desc")->paginate(25);
+        $user = auth('api')->user();
+        $surgeries = Surgerie::filterMultiple($type_date,$start_date,$end_date,$state_pay,$state,$specie,$search_pets,$search_vets,$user)->orderBy("id","desc")->paginate(25);
 
         return response()->json([
             "total_page" => $surgeries->lastPage(),
@@ -59,6 +61,7 @@ class SurgerieController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize("create",Surgerie::class);
         date_default_timezone_set('America/Lima');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->surgerie_date)->dayName;
@@ -109,6 +112,7 @@ class SurgerieController extends Controller
      */
     public function show(string $id)
     {
+        Gate::authorize("view",Surgerie::class);
         $surgerie = Surgerie::findOrFail($id);
         return response()->json([
             "surgerie" => SurgerieResource::make($surgerie),
@@ -120,6 +124,7 @@ class SurgerieController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        Gate::authorize("update",Surgerie::class);
         date_default_timezone_set('America/Lima');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->surgerie_date)->dayName;
@@ -192,6 +197,7 @@ class SurgerieController extends Controller
      */
     public function destroy(string $id)
     {
+        Gate::authorize("delete",Surgerie::class);
         $surgerie = Surgerie::findOrFail($id);
         if($surgerie->state == 3){
             return response()->json([

@@ -28,8 +28,8 @@ class AppointmentFactory extends Factory
         date_default_timezone_set('America/Lima');
         Carbon::setLocale('es');
         do {
-            //$date_appointment = $this->faker->dateTimeBetween("2024-01-01 00:00:00", "2024-12-25 23:59:59");
-             $date_appointment = $this->faker->dateTimeBetween("2023-01-01 00:00:00", "2023-12-25 23:59:59");
+            $date_appointment = $this->faker->dateTimeBetween("2024-01-01 00:00:00", "2024-12-25 23:59:59");
+            // $date_appointment = $this->faker->dateTimeBetween("2023-01-01 00:00:00", "2023-12-25 23:59:59");
         } while (in_array($date_appointment->format('N'), [6, 7]));
         $status = $this->faker->randomElement([1, 2 , 3]);
         return [

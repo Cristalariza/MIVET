@@ -1,5 +1,6 @@
 <script setup>
-    import illustration1 from '@images/cards/illustration-1.png'
+    import { isPermission } from '@/utils/constants';
+import illustration1 from '@images/cards/illustration-1.png'
     import illustration2 from '@images/cards/illustration-2.png'
     const statisticsWithImages = ref([]);
     definePage({
@@ -82,7 +83,7 @@
 </script>
 <template>
     <div>
-        <VRow class="match-height">
+        <VRow class="match-height" v-if="isPermission('show_report_grafics')">
             <!-- 👉 Sales Overview -->
             <VCol
                 cols="12"
@@ -142,6 +143,13 @@
 
             
 
+        </VRow>
+        <VRow class="match-height d-flex justify-center" v-if="!isPermission('show_report_grafics')">
+            <VCol
+                cols="6"
+            >
+                <img src="https://cdn-icons-png.flaticon.com/512/8644/8644515.png" alt="">
+            </VCol>
         </VRow>
     </div>
 </template>

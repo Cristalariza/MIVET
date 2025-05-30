@@ -190,3 +190,15 @@ export const PERMISOS = [
       }],
     },
   ]
+export function isPermission(permission){
+  let USER = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
+  if(USER){
+    if(USER.role.name == 'Super-Admin'){
+      return true;
+    }
+    if(USER.permissions.includes(permission)){//'delete_user', ['list_user','edit_user','profile_user','delete_user']
+      return true;
+    }
+  }
+  return false;
+}

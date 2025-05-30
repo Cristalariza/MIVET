@@ -77,6 +77,7 @@ export const setupGuards = router => {
       // LA LISTA DE PERMISOS DEL USUARIO AUTENTICADO
       let permissions = USER.permissions;
       // VALIDAMOS SI EL PERMISO QUE TIENE LA URL A LA QUE VAMOS A INGRESAR ES PARTE DE LOS PERMISOS DEL USUARIO AUTENTICADO
+      console.log(permissions,to.meta.permisssio);
       if(permissions.includes(to.meta.permisssion) || to.meta.permisssion == "all"){
         return true;
       }else{

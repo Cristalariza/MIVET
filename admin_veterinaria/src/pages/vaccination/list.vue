@@ -190,6 +190,7 @@
                         <VBtn
                             color="primary"
                             prepend-icon="ri-add-line"
+                            v-if="isPermission('register_vaccionation')"
                             @click="router.push({name: 'vaccination-add'})"
                         >
                             Add Vaccination
@@ -351,12 +352,14 @@
                                 <div class="d-flex gap-1">
                                     <IconBtn
                                         size="small"
+                                        v-if="isPermission('edit_vaccionation')"
                                         @click="editItem(item)"
                                     >
                                         <VIcon icon="ri-pencil-line" />
                                     </IconBtn>
                                     <IconBtn
                                         size="small"
+                                        v-if="isPermission('delete_vaccionation')"
                                         @click="deleteItem(item)"
                                     >
                                         <VIcon icon="ri-delete-bin-line" />

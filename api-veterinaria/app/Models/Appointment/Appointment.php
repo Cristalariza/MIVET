@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Database\Factories\MedicalRecord\AppointmentFactory;
 
 class Appointment extends Model
 {
@@ -25,7 +26,8 @@ class Appointment extends Model
         "state",
         "user_id",
         "amount",
-        "state_pay"
+        "state_pay",
+        // "created_at",
     ];
 
     public function setCreatedAtAttribute($value)
@@ -33,7 +35,11 @@ class Appointment extends Model
     	date_default_timezone_set('America/Lima');
         $this->attributes["created_at"]= Carbon::now();
     }
-
+    protected static function newFactory()
+    {
+        return AppointmentFactory::new();
+    }
+    
     public function setUpdatedAtAttribute($value)
     {
     	date_default_timezone_set("America/Lima");

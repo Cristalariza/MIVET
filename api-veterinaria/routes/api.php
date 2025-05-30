@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Kpi\KpiController;
 use App\Http\Controllers\Rol\RoleController;
 use App\Http\Controllers\Pets\PetsController;
 use App\Http\Controllers\Staff\StaffController;
@@ -54,6 +55,15 @@ Route::group([
 
     Route::post("payments/index",[PaymentController::class,"index"]);
     Route::resource("payments",PaymentController::class);
+
+    Route::post("kpi_report_general",[KpiController::class,"kpi_report_general"]);
+    Route::post("kpi_veterinarie_net_income",[KpiController::class,"kpi_veterinarie_net_income"]);
+    Route::post("kpi_veterinarie_most_asigned",[KpiController::class,"kpi_veterinarie_most_asigned"]);
+    Route::post("kpi_total_bruto",[KpiController::class,"kpi_total_bruto"]);
+    Route::post("kpi_report_for_servicies",[KpiController::class,"kpi_report_for_servicies"]);
+    Route::post("kpi_pets_most_payments",[KpiController::class,"kpi_pets_most_payments"]);
+    Route::post("kpi_payments_x_day_month",[KpiController::class,"kpi_payments_x_day_month"]);
+    Route::post("kpi_payments_x_month_of_year",[KpiController::class,"kpi_payments_x_month_of_year"]);
 });
 Route::get("appointment-excel",[AppointmentController::class,"downloadExcel"]);
 Route::get("vaccination-excel",[VaccinationController::class,"downloadExcel"]);

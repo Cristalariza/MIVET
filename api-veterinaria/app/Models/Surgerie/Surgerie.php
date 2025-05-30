@@ -9,6 +9,7 @@ use App\Models\MedicalRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Database\Factories\MedicalRecord\SurgerieFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Surgerie extends Model
@@ -28,13 +29,18 @@ class Surgerie extends Model
         "state",
         "user_id",
         "amount",
-        "state_pay"
+        "state_pay",
+        // "created_at"
     ];
 
     public function setCreatedAtAttribute($value)
     {
     	date_default_timezone_set('America/Lima');
         $this->attributes["created_at"]= Carbon::now();
+    }
+    protected static function newFactory()
+    {
+        return SurgerieFactory::new();
     }
 
     public function setUpdatedAtAttribute($value)

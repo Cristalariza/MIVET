@@ -15,6 +15,7 @@ class AppointmentPayment extends Model
         "appointment_id",
         "method_payment",
         "amount",
+        // "created_at"
     ];
 
     public function setCreatedAtAttribute($value)

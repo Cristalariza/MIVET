@@ -61,7 +61,7 @@ class NotificationScheduleMenssajeText extends Command
                     $hour_start = Carbon::parse(date("Y-m-d")." ".$schedule_hour_start->schedule_hour->hour_start)->format("h");//14 - 15
                 }
                 // dd($hour,$hour_start);
-                //if($hour == ($hour_start- 1)){
+                if($hour == ($hour_start- 1)){
                     // PUEDO ENVIAR EL MENSAJE DE TEXTO O ENVIAR EL CORREO
                     if($medical_record->pet->owner->phone){
                         // dd($medical_record->pet->owner->email);
@@ -124,7 +124,7 @@ class NotificationScheduleMenssajeText extends Command
 
                         $medical_record->update(["cron_state" => 1]);
                     }
-                //}
+                }
             }
         }
     }

@@ -21,13 +21,15 @@
         address: null,
         city: null,
         emergency_contact: null,
-        type_document: "DNI",
+        type_document: "CEDULA DE CIUDADANIA",
         n_document: null,
     });
-    const type_documents = [
-        'DNI',
+   const type_documents = [
+        'CEDULA DE CIUDADANIA',
+        'TARJETA DE IDENTIDAD',
         'PASAPORTE',
-        'CARNET DE EXTRANJERIA'
+        'CEDULA DE EXTRANJERIA',
+        'NIT'
     ];
     const species = ref(['Perro','Gato','Hámster','Loro','Tortuga','Vaca','Caballo','Cuy','Toro']);
     const FILE_AVATAR = ref(null);

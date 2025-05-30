@@ -25,7 +25,7 @@ class AppointmentFactory extends Factory
             $q->where("name","ilike","%veterinario%");
         })->inRandomOrder()->first();
         $pet = Pet::inRandomOrder()->first();
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         do {
             $date_appointment = $this->faker->dateTimeBetween("2024-01-01 00:00:00", "2024-12-25 23:59:59");

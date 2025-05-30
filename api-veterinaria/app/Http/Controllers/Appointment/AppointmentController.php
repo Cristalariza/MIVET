@@ -57,7 +57,7 @@ class AppointmentController extends Controller
         $hour = $request->hour;
 
         // 1.-Obtener el nombre del dia de la fecha que hemos seleccionado
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($date_appointment)->dayName;
         // 2.- Obtener la lista de veterinarios que atienden ese dia (Schedule_days)
@@ -195,7 +195,7 @@ class AppointmentController extends Controller
         // method_payment
         // adelanto
         // selected_segment_times
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->date_appointment)->dayName;
         $appointment = Appointment::create([
@@ -252,7 +252,7 @@ class AppointmentController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize("update",Appointment::class);
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->date_appointment)->dayName;
         $appointment = Appointment::findOrFail($id);

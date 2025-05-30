@@ -28,8 +28,8 @@ const error_exists = ref(null);
 const method_payments = ref([
     "EFECTIVO",
     "DEPOSITO",
-    "YAPE",
-    "PLIN"
+    "TARJETA",
+    "BTC"
 ]);
 const medical_record_selected = ref(null);
 const fieldsClean = () => {

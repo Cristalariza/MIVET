@@ -46,9 +46,9 @@ onMounted(() => {
         </div>
       </div>
       <h4 class="text-h4 text-primary">
-        {{ pet_most_payment_selected.pet_most_payments.payment_totals }} PEN
+        {{ pet_most_payment_selected.pet_most_payments.payment_totals }} COP
       </h4>
-      Mes anterior ({{ pet_most_payment_selected.payments_total_before }} PEN)
+      Mes anterior ({{ pet_most_payment_selected.payments_total_before }}COP)
       <VCardSubtitle class="d-flex align-center gap-x-2 px-0">
         <div class="d-flex align-center text-success font-weight-medium" v-if="pet_most_payment_selected.variation_percentage >= 0">
           +{{pet_most_payment_selected.variation_percentage}}%

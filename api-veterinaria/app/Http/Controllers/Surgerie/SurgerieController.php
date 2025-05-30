@@ -62,7 +62,7 @@ class SurgerieController extends Controller
     public function store(Request $request)
     {
         Gate::authorize("create",Surgerie::class);
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->surgerie_date)->dayName;
         $surgerie = Surgerie::create([
@@ -125,7 +125,7 @@ class SurgerieController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize("update",Surgerie::class);
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->surgerie_date)->dayName;
         $surgerie = Surgerie::findOrFail($id);

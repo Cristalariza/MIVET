@@ -13,9 +13,9 @@ const success = ref(null);
 const error_exists = ref(null);
 const method_payments = ref([
     "EFECTIVO",
-    "DEPOSITO",
-    "YAPE",
-    "PLIN"
+    "TRANSFERENCIA",
+    "TARJETA",
+    "BTC"
 ]);
 const surgerie_types = ref([
     "ESTERILIZACIÓN",

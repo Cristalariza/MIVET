@@ -19,13 +19,15 @@
         address: null,
         city: null,
         emergency_contact: null,
-        type_document: "DNI",
+        type_document: "CEDULA DE CIUDADANIA",
         n_document: null,
     });
     const type_documents = [
-        'DNI',
+        'CEDULA DE CIUDADANIA',
+        'TARJETA DE IDENTIDAD',
         'PASAPORTE',
-        'CARNET DE EXTRANJERIA'
+        'CEDULA DE EXTRANJERIA',
+        'NIT'
     ];
     const species = ref(['Perro','Gato','Hámster','Loro','Tortuga','Vaca','Caballo','Cuy','Toro']);
     const FILE_AVATAR = ref(null);
@@ -60,7 +62,7 @@
         form.value.address = null;
         form.value.city = null;
         form.value.emergency_contact = null;
-        form.value.type_document = "DNI";
+        form.value.type_document = "CEDULA DE CIUDADANIA";
         form.value.n_document = null;
         FILE_AVATAR.value = null;
         IMAGEN_PREVIZUALIZA.value = null;

@@ -191,13 +191,13 @@ const PaymentForMonthOfYear = async() => {
     salesReport.value = [
       {
         title: 'Pagos - '+year_selected.value,
-        amount: total_payment_current.value+" PEN",
+        amount: total_payment_current.value+" COP",
         avatarColor: 'primary',
         avatarIcon: 'ri-funds-line',
       },
       {
         title: 'Pagos -'+(parseInt(year_selected.value) - 1),
-        amount: total_payment_before.value+" PEN",
+        amount: total_payment_before.value+" COP",
         avatarColor: 'warning',
         avatarIcon: 'ri-money-dollar-circle-line',
       },
@@ -222,7 +222,7 @@ const salesReport = ref([]);
 <template>
   <VCard
     title="Pagos por mes del año"
-    :subtitle="'Total '+total_payment_all+' PEN'"
+    :subtitle="'Total '+total_payment_all+' COP'"
   >
     <template #append>
       <VRow style="width: 350px;">

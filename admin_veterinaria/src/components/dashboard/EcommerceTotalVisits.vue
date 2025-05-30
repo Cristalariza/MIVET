@@ -61,7 +61,7 @@ onMounted(() => {
         </div>
       </div>
       <h4 class="text-h4">
-        {{ income_bruto_selected.total_bruto_general }} PEN
+        {{ income_bruto_selected.total_bruto_general }} COP
       </h4>
     </VCardText>
 
@@ -88,7 +88,7 @@ onMounted(() => {
             {{income_bruto_selected.percentage_payments}}%
           </h4>
           <div class="text-body-1">
-            {{ income_bruto_selected.total_payments }} PEN
+            {{ income_bruto_selected.total_payments }} COP
           </div>
         </VCol>
 
@@ -135,7 +135,7 @@ onMounted(() => {
             {{income_bruto_selected.percentage_not_payments}}%
           </h4>
           <div class="text-body-1">
-            {{ income_bruto_selected.total_not_payments }} PEN
+            {{ income_bruto_selected.total_not_payments }} COP
           </div>
         </VCol>
       </VRow>

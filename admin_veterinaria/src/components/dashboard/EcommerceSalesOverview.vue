@@ -34,7 +34,7 @@ const reportGeneral = async() => {
       },
       {
         title: 'Ingresos Netos',
-        stats: report_general.value.net_income_total+ ' PEN',
+        stats: report_general.value.net_income_total+ ' COP',
         icon: 'ri-pie-chart-2-line',
         color: 'warning',
       },
@@ -60,7 +60,7 @@ onMounted(() => {
     <VCardItem>
       <VCardTitle>Reporte General</VCardTitle>
       <VCardSubtitle class="d-flex align-center gap-x-2">
-        Ingresos Netos del mes anterior ({{ report_general.net_income_total_before }} PEN)
+        Ingresos Netos del mes anterior ({{ report_general.net_income_total_before }} COP)
         <div class="d-flex align-center text-success font-weight-medium" v-if="report_general.variation_percentage >= 0">
           +{{report_general.variation_percentage}}%
           <VIcon

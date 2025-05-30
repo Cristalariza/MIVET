@@ -199,7 +199,7 @@ const PaymentXDayOfMonth = async() => {
             fontWeight: 400,
           },
           formatter(val) {
-            return `${ val } PEN`
+            return `${ val } COP`
           },
         },
       },
@@ -283,7 +283,7 @@ const shipmentConfig = ref(null);
   <VCard>
     <VCardItem
       title="Pagos por dia del mes"
-      :subtitle="'Total pagado del mes : '+total_payments+' PEN'"
+      :subtitle="'Total pagado del mes : '+total_payments+' COP'"
     >
       <template #append>
         <VRow>

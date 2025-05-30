@@ -62,7 +62,7 @@ class VaccinationController extends Controller
     public function store(Request $request)
     {
         Gate::authorize("create",Vaccination::class);
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->vaccination_date)->dayName;
         $vaccination = Vaccination::create([
@@ -124,7 +124,7 @@ class VaccinationController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize("update",Vaccination::class);
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $dayName = Carbon::parse($request->date_appointment)->dayName;
         $vaccination = Vaccination::findOrFail($id);

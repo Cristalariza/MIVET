@@ -15,7 +15,7 @@ class MedicalRecordPetResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         Carbon::setLocale('es');
         $resource = null;
         if($this->resource->appointment_id){

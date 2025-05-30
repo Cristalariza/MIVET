@@ -4,7 +4,7 @@ const form = ref({
     surname: null,
     email: null,
     phone: null,
-    type_document: 'DNI',
+    type_document: 'CEDULA DE CIUDADANIA',
     n_document: null,
     birthday: null,
     designation: null,
@@ -14,9 +14,11 @@ const form = ref({
     password: null,
 });
 const type_documents = [
-    'DNI',
+    'CEDULA DE CIUDADANIA',
+    'TARJETA DE IDENTIDAD',
     'PASAPORTE',
-    'CARNET DE EXTRANJERIA'
+    'CEDULA DE EXTRANJERIA',
+    'NIT'
 ];
 
 const isPasswordVisible = ref(false)

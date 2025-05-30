@@ -29,7 +29,7 @@ class NotificationScheduleMenssajeEmail extends Command
      */
     public function handle()
     {
-        date_default_timezone_set('America/Lima');
+        date_default_timezone_set('America/Bogota');
         //
         $today_date = now()->format("Y-m-d");
         $medical_records = MedicalRecord::whereDate("event_date",$today_date)

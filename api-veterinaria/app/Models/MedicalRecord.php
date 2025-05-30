@@ -25,6 +25,7 @@ class MedicalRecord extends Model
         "vaccination_id",
         "surgerie_id",
         "notes",
+        "cron_state",
     ];
 
     public function setCreatedAtAttribute($value)

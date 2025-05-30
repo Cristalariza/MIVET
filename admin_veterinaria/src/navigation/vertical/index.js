@@ -120,7 +120,7 @@ export default [
     title: 'Pagos',
     icon: { icon: 'ri-coins-line' },
     permission: 'show_payment',
-    to: 'second-page',
+    to: 'payments-list',
   },
   {
     title: 'Historial Medico',

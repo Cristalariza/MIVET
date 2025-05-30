@@ -15,7 +15,7 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['update:isDialogVisible','addRole'])
+const emit = defineEmits(['update:isDialogVisible','editUser'])
 
 const dialogVisibleUpdate = val => {
   emit('update:isDialogVisible', val)
@@ -26,7 +26,7 @@ const form = ref({
     surname: null,
     email: null,
     phone: null,
-    type_document: 'CEDULA DE CIUDADANIA',
+    type_document: 'DNI',
     n_document: null,
     birthday: null,
     designation: null,
@@ -35,11 +35,9 @@ const form = ref({
     password: null,
 });
 const type_documents = [
-    'CEDULA DE CIUDADANIA',
-    'TARJETA DE IDENTIDAD',
+    'DNI',
     'PASAPORTE',
-    'CEDULA DE EXTRANJERIA',
-    'NIT'
+    'CARNET DE EXTRANJERIA'
 ];
 const isPasswordVisible = ref(false)
 const warning = ref(null);
@@ -120,10 +118,8 @@ const update = async() => {
       setTimeout(() => {
         warning.value = null;
         error_exists.value = null;
-        emit('update:isDialogVisible', false);
-        emit('editUser', resp.user)
-        
       }, 1500);
+      emit('editUser', resp.user)
     }
   } catch (error) {
     console.log(error);

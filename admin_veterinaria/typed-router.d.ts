@@ -27,6 +27,7 @@ declare module 'vue-router/auto-routes' {
     'login': RouteRecordInfo<'login', '/login', Record<never, never>, Record<never, never>>,
     'medical-record-calendar': RouteRecordInfo<'medical-record-calendar', '/medical-record/calendar', Record<never, never>, Record<never, never>>,
     'not-authorized': RouteRecordInfo<'not-authorized', '/not-authorized', Record<never, never>, Record<never, never>>,
+    'payments-list': RouteRecordInfo<'payments-list', '/payments/list', Record<never, never>, Record<never, never>>,
     'pet-add': RouteRecordInfo<'pet-add', '/pet/add', Record<never, never>, Record<never, never>>,
     'pet-edit-id': RouteRecordInfo<'pet-edit-id', '/pet/edit/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'pet-list': RouteRecordInfo<'pet-list', '/pet/list', Record<never, never>, Record<never, never>>,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Rol\RoleController;
 use App\Http\Controllers\Pets\PetsController;
 use App\Http\Controllers\Staff\StaffController;
 use App\Http\Controllers\Surgerie\SurgerieController;
+use App\Http\Controllers\MedicalRecord\PaymentController;
 use App\Http\Controllers\Appointment\AppointmentController;
 use App\Http\Controllers\Vaccination\VaccinationController;
 use App\Http\Controllers\Veterinarie\VeterinarieController;
@@ -50,7 +51,11 @@ Route::group([
 
     Route::post("surgeries/index",[SurgerieController::class,"index"]);
     Route::resource("surgeries",SurgerieController::class);
+
+    Route::post("payments/index",[PaymentController::class,"index"]);
+    Route::resource("payments",PaymentController::class);
 });
 Route::get("appointment-excel",[AppointmentController::class,"downloadExcel"]);
 Route::get("vaccination-excel",[VaccinationController::class,"downloadExcel"]);
 Route::get("surgeries-excel",[SurgerieController::class,"downloadExcel"]);
+Route::get("payments-excel",[PaymentController::class,"downloadExcel"]);

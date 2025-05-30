@@ -3,9 +3,12 @@
 namespace App\Models\Pets;
 
 use Carbon\Carbon;
+use App\Models\Surgerie\Surgerie;
+use App\Models\Appointment\Appointment;
+use App\Models\Vaccination\Vaccination;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pet extends Model
 {
@@ -36,5 +39,15 @@ class Pet extends Model
     }
     public function owner() {
         return $this->belongsTo(Owner::class,'owner_id');
+    }
+
+    public function appointments() {
+        return $this->hasMany(Appointment::class,"pet_id");
+    }
+    public function vaccinations() {
+        return $this->hasMany(Vaccination::class,"pet_id");
+    }
+    public function surgeries(){
+        return $this->hasMany(Surgerie::class,"pet_id");
     }
 }

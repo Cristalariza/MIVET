@@ -27,6 +27,9 @@ class PetResource extends JsonResource
             'photo' => env("APP_URL")."storage/".$this->resource->photo,
             'medical_notes' => $this->resource->medical_notes,
             'owner_id'  => $this->resource->owner_id,
+            "n_appointment" => $this->resource->appointments->count(),
+            "n_vaccination" =>$this->resource->vaccinations->count(),
+            "n_surgerie" =>$this->resource->surgeries->count(),
             'owner' => [
                'first_name' => $this->resource->owner->first_name,
                 'last_name' => $this->resource->owner->last_name,

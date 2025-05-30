@@ -124,7 +124,7 @@ export default [
   },
   {
     title: 'Historial Medico',
-    to: { name: 'second-page' },
+    to: { name: 'medical-record' },
     icon: { icon: 'ri-draft-line' },
     permission: 'show_medical_records',
   },

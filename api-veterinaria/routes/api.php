@@ -44,7 +44,7 @@ Route::group([
 
     Route::get("/medical-records/calendar",[MedicalRecordController::class,"calendar"]);
     Route::put("/medical-records/update_aux/{id}",[MedicalRecordController::class,"update_aux"]);
-
+    Route::post("/medical-records/pet",[MedicalRecordController::class,"index"]);
     
     Route::post("vaccinations/index",[VaccinationController::class,"index"]);
     Route::resource("vaccinations",VaccinationController::class);
